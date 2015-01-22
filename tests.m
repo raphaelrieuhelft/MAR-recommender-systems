@@ -1,6 +1,7 @@
 function tests
 
 addpath('CF-Reference')
+addpath('SVD')
 
 M = load('recommendMatrix.txt');
 p=0.2;
