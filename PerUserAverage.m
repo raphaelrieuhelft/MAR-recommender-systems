@@ -2,15 +2,12 @@ function [ estim ] = PerUserAverage( data )
 %PerUserAverage P(u) = mean(u)
 %   See http://arxiv.org/pdf/cs/0702144v2.pdf
 
-[m,~] = size(data);
-estim = data;
+[~,n] = size(data);
 
-for i=1:m
-    u = data(i,:);
-    umean = mean(u(not(isnan(u))));
-    nans = numel(u(isnan(u)));
-    u(isnan(u)) = umean*ones(1,nans);
-    estim(i,:) = u;
-end
+means = nanmean(data,2);
+estim_all = repmat(means,1,n);
+estim = data;
+nans = isnan(data);
+estim(nans) = estim_all(nans);
 
 end

@@ -4,20 +4,14 @@ function [ estim ] = BiasFromMean( data )
 
 [m,n] = size(data);
 
-means = ones(m,1);
-for i=1:m
-    u = data(i,:);
-    means(i) = mean(u(not(isnan(u))));
-end
+means = nanmean(data,2);
 
-bias = ones(1,n);
-for j=1:n
-    obj = data(:,j);
-    Sj = not(isnan(obj));
-    bias(j) = mean(obj(Sj)-means(Sj));
-end
+full_means = repmat(means,1,n);
 
-estim_all = repmat(means,1,n) + repmat(bias,m,1);
+bias_aux = data - full_means;
+bias = nanmean(bias_aux);
+
+estim_all = full_means + repmat(bias,m,1);
 
 estim = data;
 nans = isnan(data);
