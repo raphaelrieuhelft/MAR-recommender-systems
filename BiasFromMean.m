@@ -21,6 +21,6 @@ estim_all = repmat(means,1,n) + repmat(bias,m,1);
 
 estim = data;
 nans = isnan(data);
-estim(nans) = estim(estim_all);
+estim(nans) = estim_all(nans);
 
 end
