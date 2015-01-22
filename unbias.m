@@ -9,8 +9,8 @@ m=mean(c);
 c= c - m;
 count=0;
 Mnorm = zeros(n,p);
-for i=1:p
-    for j=1:n
+for j=1:p
+    for i=1:n
         if (isnan(M(i,j)))
         else
             count=count+1;
@@ -21,8 +21,8 @@ for i=1:p
 end
 assert(count==numel(c));
 b=(A'*A)\(A'*c);
-for i=1:p
-    for j=1:n
+for j=1:p
+    for i=1:n
         if (isnan(M(i,j)))
         else
             Mnorm(i,j)=M(i,j)-(m+b(i)+b(n+j));

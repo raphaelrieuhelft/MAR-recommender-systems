@@ -4,7 +4,7 @@ function [ Mf ] = rebias( Munb, b, m )
 [n,p]=size(Munb);
 assert(numel(b)==n+p);
 bi = repmat(b(1:n), 1, p);
-bj = repmat(b(n+1:end), n, 1);
+bj = repmat(b(n+1:end)', n, 1);
 Mf = Munb+bi+bj+m;
 end
 
