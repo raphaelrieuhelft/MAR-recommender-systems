@@ -2,6 +2,7 @@ function tests
 
 addpath('CF-Reference')
 addpath('SVD')
+addpath('SlopeOne')
 
 M = load('recommendMatrix.txt');
 p=0.2;
