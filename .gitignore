@@ -46,3 +46,6 @@ Temporary Items
 jester-data-1.csv
 jester-data-1.xls
 *.asv
+*.gz
+*.aux
+*.log
