@@ -4,27 +4,29 @@ function [ estim ] = SlopeOne( data )
 
 [n,p] = size(data);
 
+nan_pos = isnan(data);
+nan_pos_double = double(nan_pos);
+
+data_with_zeros = data;
+data_with_zeros(nan_pos) = 0;
+
+sum_ui_for_u_in_Sj = data_with_zeros'*nan_pos_double;
+sum_uj_for_u_in_Si = nan_pos_double'*data_with_zeros;
+
+num_Si_inter_Sj = (nan_pos_double')*nan_pos_double;
+
+dev = (sum_ui_for_u_in_Sj - sum_uj_for_u_in_Si) ./ num_Si_inter_Sj;
 
 
-
+mean_devij_for_j_in_Ri = nanmean(dev,2);
 
 means = nanmean(data,2);
 
-full_means = repmat(means,1,p);
 
-
-
-
-
-bias_aux = data - full_means;
-bias = nanmean(bias_aux);
-
-estim_all = full_means + repmat(bias,n,1);
+estim_all = repmat(means,1,p) + repmat(mean_devij_for_j_in_Ri',n,1);
 
 estim = data;
-nans = isnan(data);
-estim(nans) = estim_all(nans);
-
+estim(nan_pos) = estim_all(nan_pos);
 
 end
 

@@ -15,6 +15,7 @@ biasMeanErr = MSE(M, p,1, @BiasFromMeanExt)
 perUsrAvgErr = MSE(M,p,1,@PerUserAverageExt)
 userCosErr = MSE(M,p,1,@UserCosSimExt)
 itemCosErr = MSE(M,p,1,@ItemCosSimExt)
+slopeOneErr = MSE(M,p,1,@SlopeOneExt)
 
 end
 
@@ -29,4 +30,7 @@ function[Mh] = UserCosSimExt(X,~,~)
 end
 function[Mh] = ItemCosSimExt(X,~,~)
     Mh=itemCosSimilarity(X);
+end
+function[Mh] = SlopeOneExt(X,~,~)
+    Mh=SlopeOne(X);
 end

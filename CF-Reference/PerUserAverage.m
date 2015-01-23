@@ -7,7 +7,7 @@ function [ estim ] = PerUserAverage( data )
 means = nanmean(data,2);
 estim_all = repmat(means,1,p);
 estim = data;
-nans = isnan(data);
-estim(nans) = estim_all(nans);
+nan_pos = isnan(data);
+estim(nan_pos) = estim_all(nan_pos);
 
 end

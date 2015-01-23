@@ -14,7 +14,7 @@ bias = nanmean(bias_aux);
 estim_all = full_means + repmat(bias,n,1);
 
 estim = data;
-nans = isnan(data);
-estim(nans) = estim_all(nans);
+nan_pos = isnan(data);
+estim(nan_pos) = estim_all(nan_pos);
 
 end
