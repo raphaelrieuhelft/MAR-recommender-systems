@@ -49,3 +49,5 @@ jester-data-1.xls
 *.gz
 *.aux
 *.log
+*.bbl
+*.blg
