@@ -29,7 +29,7 @@ algos = {
     'ShiftSVD', @shiftSVD;
     'UnbiasedSVD', @unbiasedSVD;
     
-    'UserCosSi', @UserCosSimExt;
+    'UserCosSim', @UserCosSimExt;
     'ItemCosSim', @ItemCosSimExt;
     
     'SlopeOne', @SlopeOneExt;
@@ -47,6 +47,8 @@ for i = 1:nprobas
     results(2:nalgos+1,i+1) = MSEs;
 end
 results
+
+
 
 
 % MSEs = cellfun(@(algo) MSE(M,p,iter,algo), algos(:,2));

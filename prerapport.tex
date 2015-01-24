@@ -105,16 +105,23 @@ Efficacité peut varier selon la forme du jeu de données (sparsity...)
 	\subsection{Algorithmes témoins}
 		Algorithmes naïfs servant de point de comparaison : 
 			\begin{itemize}
-				\item{Estimer un rating inconnu par la moyenne de tous les ratings connus}
-				\item{Estimer la note donnée par un utilisateur à un objet par la moyenne des notes données par les autres utilisateurs à cet objet}
+				\item{Estimer tous les ratings inconnus par la moyenne de tous les ratings possibles}
+				\item{Estimer tous les ratings inconnus pour un utilisateur donné par la moyenne des ratings connus qu'il a attribués}
+				\item{Estimer la note donnée par un utilisateur à un objet en fonction de sa moyenne, mais aussi des écarts entre les notes attribuées à l'objet et les moyennes des utilisateurs qui l'ont noté}
 				\item{Retirer les biais comme dans le cours, estimer tous les ratings inconnus par $0$, remettre les biais}
 			\end{itemize}
 	\subsection{SVD}
 		Variantes sur la question bonus du DM (comment traiter les trous dans la matrice, avec ou sans traitement des biais...).
 	\subsection{Algorithmes Slope One}
-		Idée : régression linéaire, en imposant que la pente vaut $1$.
+		Prédicteur affine, en imposant une pente de 1. Pour tout couple d'objet, on définit une déviation de l'un par rapport à l'autre, un peu comme la mesure de similarité cosinus, mais en beaucoup plus simple (linéaire). La prédiction de la note attribuée à un objet s'obtient alors en ajoutant la moyenne de l'utilisateur et la moyenne des déviations de l'objet aux autres objets notés par l'utilisateur. D'où un prédicteur de forme $f(x)=x+b$.
+	
 		
-		Ajout d'un nouveau rating et traitement de requêtes très rapides, il faut voir à quel point c'est moins précis que d'autres algos plus sophistiqués.
+		
+		Calculs simples. Possibilité de garder les déviations en mémoire : traitement d'une requête très rapide. De plus, ces déviations peuvent même être mises à jour sans tout recalculer quand on ajoute un rating.
+		
+		\`A quel point est-ce moins précis que d'autres algos plus sophistiqués ?
+		
+		Variante : donner plus de poids aux déviations des paires d'objets qui ont été notés tous deux à la fois par un grand nombre d'utilisateurs, car elles sont plus fiables.
 		
 		Algorithmes tirés de \cite{Lemire2007}.
 	\subsection{Algorithmes par similarité cosinus}
