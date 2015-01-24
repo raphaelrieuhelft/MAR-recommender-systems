@@ -112,13 +112,24 @@ Efficacité peut varier selon la forme du jeu de données (sparsity...)
 	\subsection{Algorithmes par similarité cosinus}
 		Implémentation de l'algorithme vu en cours
 		
-	\subsection{Analyse en composantes principales}
+	\subsection{Analyse en composantes principales : algorithme Eigentaste}
+		Idée : s'appuyer sur un petit sous-ensemble d'objets notés par tous les utilisateurs (\emph{gauge set}) pour projeter un utilisateur sur un espace de petite dimension puis estimer ses notes à partir de celles de ses voisins au sens d'un algorithme de clustering.
+		
+		Défauts : on demande à un nouvel utilisateur de noter l'intégralité du gauge set pour l'ajouter, et le cold start pose problème.
+		
+		La précision est-elle vraiment meilleure que celle d'autres algorithmes plus simples ?
 		
 		
 		
 \section{Observations expérimentales}
 	\subsection{Jeux de données}
+		\begin{itemize}
+			\item{Matrice de la question bonus du DM (pleine, on observe seulement une certaine fraction des ratings)}
+			\item{Jeu de données Jester (ratings d'une centaine de blagues, dix blagues sont notées par toutes les utilisateurs) utilisé pour Eigentaste.}
+			\item{Jeu de données plus grand (MovieLens) pour mesurer les difficultés liées aux temps d'exécutions dans des conditions plus réalistes ?}
+		\end{itemize}
 	\subsection{Mesures d'erreur}
+		
 	\subsection{Temps d'exécution}
 \section*{Conclusion}
 
