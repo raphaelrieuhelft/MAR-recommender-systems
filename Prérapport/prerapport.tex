@@ -94,23 +94,29 @@
 
 \section*{Introduction}
 
-Définition CF
+Définition : collaborative filtering
 
-Attentes (précision/temps de réponse/ajout rapide d'un rating/cold start...)
+Position du problème : 
+Attentes vis-à-vis des algorithmes (précision/temps de réponse/ajout rapide d'un rating/cold start...)
 
 Efficacité peut varier selon la forme du jeu de données (sparsity...)
 
+Objectif : Implémenter (en Matlab) et comparer différents algorithmes en terme de précision et de temps d'exécution sur différents jeux de données, mettre en relief les compromis à faire.
 
 \section{Les algorithmes utilisés}
 	\subsection{Algorithmes témoins}
 		Algorithmes naïfs servant de point de comparaison : 
 			\begin{itemize}
-				\item{Estimer un rating inconnu par la moyenne de tous les ratings connus}
-				\item{Estimer la note donnée par un utilisateur à un objet par la moyenne des notes données par les autres utilisateurs à cet objet}
-				\item{Retirer les biais comme dans le cours, estimer tous les ratings inconnus par $0$, remettre les biais}
+				\item{"Witness" : Estimer un rating inconnu par la moyenne de tous les ratings connus}
+				\item{"PerUserAverage" : Estimer la note donnée par un utilisateur à un objet par la moyenne des notes données par les autres utilisateurs à cet objet}
+				\item{"UnbiasedWitness" : Retirer les biais comme dans le cours, estimer tous les ratings inconnus par $0$, remettre les biais}
 			\end{itemize}
 	\subsection{SVD}
 		Variantes sur la question bonus du DM (comment traiter les trous dans la matrice, avec ou sans traitement des biais...).
+		\begin{itemize}
+			\item{"ShiftSVD" : translater la matrice pour avoir $0$ de moyenne, SVD, retranslater}
+			\item{"UnbiasedSVD" : enlever les biais, SVD, remettre les biais}
+		\end{itemize}
 	\subsection{Algorithmes Slope One}
 		Idée : régression linéaire, en imposant que la pente vaut $1$.
 		
@@ -118,7 +124,7 @@ Efficacité peut varier selon la forme du jeu de données (sparsity...)
 		
 		Algorithmes tirés de \cite{Lemire2007}.
 	\subsection{Algorithmes par similarité cosinus}
-		Implémentation de l'algorithme vu en cours.
+		Implémentation des algorithmes vus en cours : "itemCosSimilarity", "userCosSimilarity".
 		
 	\subsection{Analyse en composantes principales : algorithme Eigentaste}
 		Idée : s'appuyer sur un petit sous-ensemble d'objets notés par tous les utilisateurs (\emph{gauge set}) pour projeter un utilisateur sur un espace de petite dimension puis estimer ses notes à partir de celles de ses voisins au sens d'un algorithme de clustering.
@@ -129,6 +135,7 @@ Efficacité peut varier selon la forme du jeu de données (sparsity...)
 		
 		Algorithme extrait de \cite{Goldberg2001}.
 		
+		
 \section{Observations expérimentales}
 	\subsection{Jeux de données}
 		\begin{itemize}
@@ -137,8 +144,29 @@ Efficacité peut varier selon la forme du jeu de données (sparsity...)
 			\item{Jeu de données plus grand (MovieLens) pour mesurer les difficultés liées aux temps d'exécutions dans des conditions plus réalistes ?}
 		\end{itemize}
 	\subsection{Mesures d'erreur}
+	
+		\begin{figure}[ht!]
+			\centering
+			\includegraphics[width=\linewidth]{resultatsPrerapport.jpg}
+		\end{figure}
+		Sur la matrice du DM, on obtient ce tableau d'erreurs MSE pour différentes valeurs de p :
+		
+		Eigentaste et quelques autres ne sont pas encore implémentés.
+		à venir aussi : une autre mesure d'erreur, et des mesures sur les autres jeux de données.
+		
 	\subsection{Temps d'exécution}
-\section*{Conclusion}
+	
+		\begin{figure}[ht!]
+			\centering
+			\includegraphics[height=120mm]{times.jpg}
+			\caption{Profiling fourni par Matlab}
+		\end{figure}
+		
+
+		Les algorithmes qui enlèvent et remettent les biais comme dans le cours s'exécutent beaucoup plus lentement : il faut inverser une matrice creuse, et on n'a pas réussi à vectoriser une partie du calcul de l'argmin pour les biais. Il faudra essayer l'expression plus naïve des biais et voir ce qu'on gagne en temps/perd en précision.
+		
+		Il faut aussi tenir compte du fait que certains algos (Slope One oui, SVD non) calculent des choses "une fois pour toutes", et c'est rapide d'ajouter un utilisateur et/ou de faire une requête.
+		
 \bibliographystyle{plain}
 \bibliography{biblio}
 
