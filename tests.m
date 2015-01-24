@@ -5,6 +5,11 @@ addpath('SVD')
 addpath('SlopeOne')
 addpath('ErrorRating')
 
+warning('off','MATLAB:singularMatrix')
+warning('off','MATLAB:nearlySingularMatrix')
+
+%%%%%%%
+
 M = load('recommendMatrix.txt');
 p=0.2;
 iter=1;
@@ -23,15 +28,27 @@ algos = {
     'UserCosSi', @UserCosSimExt;
     'ItemCosSim', @ItemCosSimExt;
     
-    'SlopeOn', @SlopeOneExt;
-    'WeightedSlopeOn', @WeightedSlopeOneExt
-    }
+    'SlopeOne', @SlopeOneExt;
+    'WeightedSlopeOne', @WeightedSlopeOneExt
+    };
+[nalgos,~] = size(algos);
 
+MSEs = cellfun(@(algo) MSE(M,p,iter,algo), algos(:,2));
+MSEs = num2cell(MSEs);
 
-errors = cellfun(@(algo) MSE(M,p,iter,algo), algos(:,2));
-errors = num2cell(errors);
+% notSVD = logical([1,1,1,1,0,0,0,1,1,1,1]);
+% notSVDalgos = algos(:,2);
+% notSVDalgos = notSVDalgos(notSVD);
+% M1 = randObserve(M,0.1);
+% MAEs = cellfun(@(algo) MAE(M1,algo), notSVDalgos);
+% MAEs = num2cell(MAEs);
+% t1 = cell(nalgos,1);
+% t1(notSVD) = MAEs;
+% MAEs = t1;
 
-results = [algos(:,1), errors]
+results = [algos(:,1), MSEs, 
+    %MAEs
+    ]
 % plainErr = MSE(M,p, iter, @plainSVD)
 % shiftErr = MSE(M,p, iter, @shiftSVD)
 % unbiasErr = MSE(M, p, iter, @unbiasedSVD)
@@ -44,8 +61,7 @@ results = [algos(:,1), errors]
 % WeightedSlopeOneErr = MSE_1arg(M,p,iter,@WeightedSlopeOne)
 
 
-%M1 = randObserve(M,0.01);
-%WitnessMAE = MAE(M1, @witness)
+
 end
 
 function [err] =  MSE_1arg(M,p,iter,f)

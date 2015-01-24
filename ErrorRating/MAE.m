@@ -2,11 +2,10 @@ function [ err ] = MAE( data, algo )
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 
-[n,~] = size(data);
-[r,c] = find(not(isnan(data)));
+[r,c] = find(~isnan(data));
 cardSu = sum(~isnan(data), 2);
 errs = arrayfun(@HideAndGuess,r,c);
-err = sum(errs)/n;
+err = nansum(errs)/(sum(cardSu)-sum(cardSu==1));
 
 
     function err1 = HideAndGuess(u,i)
