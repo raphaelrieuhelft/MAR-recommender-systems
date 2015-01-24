@@ -1,6 +1,4 @@
-\begin{center}
-
-\end{center}\documentclass[11pt, openany, a4paper]{article}
+\documentclass[11pt, openany, a4paper]{article}
 
 \usepackage{etex}
 \usepackage{fullpage}
@@ -94,6 +92,9 @@
 \newcommand{\e}[1]{$\times 10^{#1}$}
 \begin{document}
 
+\title{Algorithmes pour les systèmes de recommandation : un comparatif}
+\date{}
+\maketitle
 \section*{Introduction}
 
 Définition : collaborative filtering
@@ -156,13 +157,14 @@ Objectif : Implémenter (en Matlab) et comparer différents algorithmes en terme
 	
 		\begin{figure}[ht!]
 			\centering
-			\includegraphics[width=\linewidth]{resultatsPrerapport.jpg}
+			\includegraphics[width=0.8\linewidth]{resultatsPrerapport.jpg}
 		\end{figure}
 		Sur la matrice du DM, on obtient ce tableau d'erreurs MSE pour différentes valeurs de p :
 		
 		Eigentaste et quelques autres ne sont pas encore implémentés.
 		à venir aussi : une autre mesure d'erreur, et des mesures sur les autres jeux de données.
 		
+		L'algorithme simple "BiasFromMean" obtient d'excellents résultats !  Les variantes de Slope One obtiennent aussi des résultats très comparables aux algorithmes SVD plus complexes à mettre en œuvre.
 	\subsection{Temps d'exécution}
 	
 		\begin{figure}[ht!]
