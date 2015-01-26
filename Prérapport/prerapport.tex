@@ -138,10 +138,16 @@ Objectif : Implémenter (en Matlab) et comparer différents algorithmes en terme
 		
 	\subsection{Analyse en composantes principales : algorithme Eigentaste}
 		Idée : s'appuyer sur un petit sous-ensemble d'objets notés par tous les utilisateurs (\emph{gauge set}) pour projeter un utilisateur sur un espace de petite dimension puis estimer ses notes à partir de celles de ses voisins au sens d'un algorithme de clustering.
-		
 		Algorithme extrait de \cite{Goldberg2001}.
 		
 		Notons $R$ la matrice $(n\times m)$ des ratings, $G$ le gauge set, $k=|G|$.
+		
+		On commence par normaliser les ratings des utilisateurs sur les objets du gauge set : la qualité objective d'un objet importe peu ici car on cherche à obtenir des informations sur les ressemblances entre utilisateurs.
+		
+		Pour tout objet $j$, on calcule donc $\mu_j=\sum_{i=1}^n r_{ij}$ la note moyenne de cet objet, et $$\sigma_j^2 = \frac{1}{n-1} \sum_{i=1}^{n} (r_{ij} - \mu_j)$$ sa variance.
+		
+		On obtient alors la matrice $A$ des ratings normalisés sur le gauge set : $a_{ij} = \frac{r_{ij}-\mu_j}{\sigma_j}$.
+		
 				
 		Défauts : on demande à un nouvel utilisateur de noter l'intégralité du gauge set pour l'ajouter, et le cold start pose problème.
 		

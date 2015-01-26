@@ -11,9 +11,9 @@ A = Rgm./repmat(sig', n, 1);
 
 C=(1/(n-1))*(A'*A);
 
-[E,~]=eig(C); %E*D*E'=C
+[E,~]=eigs(C,2); %E*D*E'=C
 
-U=A*(E(:, 1:2));
+U=A*E;
 Z=linkage(U,'ward', 'euclidean');
 T=cluster(Z, 'maxclust', maxClust);
 d0=R;
