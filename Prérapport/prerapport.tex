@@ -139,11 +139,15 @@ Objectif : Implémenter (en Matlab) et comparer différents algorithmes en terme
 	\subsection{Analyse en composantes principales : algorithme Eigentaste}
 		Idée : s'appuyer sur un petit sous-ensemble d'objets notés par tous les utilisateurs (\emph{gauge set}) pour projeter un utilisateur sur un espace de petite dimension puis estimer ses notes à partir de celles de ses voisins au sens d'un algorithme de clustering.
 		
+		Algorithme extrait de \cite{Goldberg2001}.
+		
+		Notons $R$ la matrice $(n\times m)$ des ratings, $G$ le gauge set, $k=|G|$.
+				
 		Défauts : on demande à un nouvel utilisateur de noter l'intégralité du gauge set pour l'ajouter, et le cold start pose problème.
 		
 		La précision est-elle vraiment meilleure que celle d'autres algorithmes plus simples ?
 		
-		Algorithme extrait de \cite{Goldberg2001}.
+		
 		
 		
 \section{Observations expérimentales}

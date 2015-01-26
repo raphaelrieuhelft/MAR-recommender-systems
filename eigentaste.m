@@ -22,5 +22,6 @@ sameClust = (repmat(T,1,n)==repmat(T',n,1));
 sums = sameClust*d0;
 counts = sameClust*double(~isnan(R));
 Mh = sums ./ counts;
+Mh(isnan(Mh))=0;
 end
 
