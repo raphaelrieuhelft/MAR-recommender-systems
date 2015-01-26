@@ -136,22 +136,40 @@ Objectif : Implémenter (en Matlab) et comparer différents algorithmes en terme
 	\subsection{Algorithmes par similarité cosinus}
 		Implémentation des algorithmes vus en cours : "itemCosSimilarity", "userCosSimilarity".
 		
-	\subsection{Analyse en composantes principales : algorithme Eigentaste}
-		Idée : s'appuyer sur un petit sous-ensemble d'objets notés par tous les utilisateurs (\emph{gauge set}) pour projeter un utilisateur sur un espace de petite dimension puis estimer ses notes à partir de celles de ses voisins au sens d'un algorithme de clustering.
-		Algorithme extrait de \cite{Goldberg2001}.
+	\subsection{Analyse en composantes principales : algorithme Eigentaste\cite{Goldberg2001}}
+		Idée : s'appuyer sur un petit sous-ensemble d'objets notés par tous les utilisateurs (\emph{gauge set}) pour projeter un utilisateur sur un espace de petite dimension puis estimer ses notes à partir de celles de ses voisins au sens d'un algorithme de clustering. Eigentaste ne s'applique donc qu'aux jeux de données comprenant un tel gauge set, comme le jeu de données Jester.
 		
 		Notons $R$ la matrice $(n\times m)$ des ratings, $G$ le gauge set, $k=|G|$.
 		
-		On commence par normaliser les ratings des utilisateurs sur les objets du gauge set : la qualité objective d'un objet importe peu ici car on cherche à obtenir des informations sur les ressemblances entre utilisateurs.
+		On commence par normaliser les ratings des utilisateurs sur les objets du gauge set : la qualité objective d'un objet importe peu ici car on cherche à obtenir des informations sur les ressemblances entre utilisateurs par analyse de composantes principales.
 		
 		Pour tout objet $j$, on calcule donc $\mu_j=\sum_{i=1}^n r_{ij}$ la note moyenne de cet objet, et $$\sigma_j^2 = \frac{1}{n-1} \sum_{i=1}^{n} (r_{ij} - \mu_j)$$ sa variance.
 		
-		On obtient alors la matrice $A$ des ratings normalisés sur le gauge set : $a_{ij} = \frac{r_{ij}-\mu_j}{\sigma_j}$.
+		On obtient alors la matrice $A$ (de taille $k\times k$) des ratings normalisés sur le gauge set : $a_{ij} = \frac{r_{ij}-\mu_j}{\sigma_j}$.
 		
-				
-		Défauts : on demande à un nouvel utilisateur de noter l'intégralité du gauge set pour l'ajouter, et le cold start pose problème.
+		On pose $C=\frac{1}{n-1} A^T A$ (matrice de corrélation de Pearson). Elle est symétrique définie positive, on note $\Lambda$ la matrice diagonale contenant ses valeurs propres triées par ordre décroissant et $E$ la matrice orthogonale de vecteurs propres associée. On a $EE^T = Id$, $C = E\Lambda E^T$.
 		
-		La précision est-elle vraiment meilleure que celle d'autres algorithmes plus simples ?
+		On peut alors projeter les vecteurs correspondant aux utilisateurs sur un petit sous-espace (de dimension $v$) contenant l'essentiel de la variance en posant $X=AE^T_v$. 
+		En particulier, pour $v=k$, on a $C_X = \frac{1}{n-1} X^T X = ECE^T = \Lambda$ diagonale : les vecteurs sont décorrélés.
+		On prend $v=2$ dans la suite.
+		
+			\begin{figure}[ht!]
+				\centering
+				\includegraphics[height=120mm]{eigentaste_proj_cropped.pdf}
+				\caption{Projection pour $v=2$ sur un sous-ensemble du jeu de données Jester}
+			\end{figure}
+			
+		On regroupe ensuite les utilisateurs proches par amas en utilisant un algorithme de clustering (\cite{Goldberg2001} utilise un algorithme récursif rectangulaire, nous avons utilisé les fonctions Matlab \emph{linkage} et \emph{cluster} dans notre implémentation).
+		
+		On estime ensuite un rating de l'utilisateur $i$ sur l'objet $j$ par la moyenne des notes pour $j$ des utilisateurs se trouvant dans le même cluster que $i$.
+		
+		\medskip
+						
+		Cet algorithme a l'inconvénient de ne s'appliquer qu'à certains jeux de données : pour ajouter un nouvel utilisateur, il faut d'abord lui faire noter l'intégralité du gauge set (typiquement une dizaine d'objets). De plus, on ne peut rien dire sur un utilisateur seul dans son amas : le démarrage à froid pose problème.
+		
+		En revanche, ajouter un utilisateur qui a noté le gauge set est peu coûteux en termes de temps de calcul : on peut lui recommander rapidement des objets dès qu'on a choisi son cluster, l'idée étant de ne pas modifier immédiatement les projections des anciens utilisateurs mais plutôt de tout remettre à jour périodiquement.
+		
+		Dans la suite, on se propose de comparer Eigentaste avec d'autres algorithmes de recommandation en termes de précision et de temps de calcul, sur le jeu de données Jester.
 		
 		
 		
