@@ -1,4 +1,4 @@
-function [ estim ] = BiPolarSlopeOne( data )
+function [ estim ] = BiPolarSlopeOne( data, dev, c )
 %BiPolarSlopeOne
 %   See http://arxiv.org/pdf/cs/0702144v2.pdf
 

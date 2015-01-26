@@ -7,10 +7,11 @@ m=mean(c);
 c= c - m;
 
 [i,j,s] = find(~isnan(M));
-k = 1:numel(i);
+nk = numel(i);
+k = 1:nk;
 
-A1 = sparse(k,i,s);
-A2 = sparse(k,j,s);
+A1 = sparse(k,i,s,nk,n);
+A2 = sparse(k,j,s,nk,p);
 A = double([A1,A2]);
 
 b=(A'*A)\(A'*c);

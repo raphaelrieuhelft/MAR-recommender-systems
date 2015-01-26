@@ -19,22 +19,22 @@ probas = linspace(0,1,nprobas+2);
 probas = probas(2:nprobas+1);
 
 algos = {
-    'Witness', @witness;
-    'UnbiasedWitness', @UnbiasedWitness;
+    'Witness', @witness, 1;
+    'UnbiasedWitness', @UnbiasedWitness, 1;
 
-    'PerUserAverage', Ext(@PerUserAverage);
-    'BiasFromMean', Ext(@BiasFromMean);
+    'PerUserAverage', Ext(@PerUserAverage), 1;
+    'BiasFromMean', Ext(@BiasFromMean), 1;
     
-    'PlainSVD', @plainSVD;
-    'ShiftSVD', @shiftSVD;
-    'UnbiasedSVD', @unbiasedSVD;
+    'PlainSVD', @plainSVD, 0;
+    'ShiftSVD', @shiftSVD, 0;
+    'UnbiasedSVD', @unbiasedSVD, 0;
     
-    'UserCosSim', Ext(@userCosSimilarity);
-    'ItemCosSim', Ext(@itemCosSimilarity);
+    'UserCosSim', Ext(@userCosSimilarity), 1;
+    'ItemCosSim', Ext(@itemCosSimilarity), 1;
     
-    'SlopeOne', Ext(@SlopeOne);
-    'WeightedSlopeOne', Ext(@WeightedSlopeOne);
-    'BiPolarSlopeOne', Ext(@BiPolarSlopeOne);
+    'SlopeOne', Ext(@SlopeOne), 1;
+    'WeightedSlopeOne', Ext(@WeightedSlopeOne), 1;
+    'BiPolarSlopeOne', Ext(@BiPolarSlopeOne), 0;
     };
 [nalgos,~] = size(algos);
 
@@ -42,13 +42,26 @@ results = cell(nalgos+1,nprobas+1);
 results(1,1) = {'Algorithme  \  p'};
 results(2:nalgos+1,1) = algos(:,1);
 results(1,2:nprobas+1) = num2cell(probas);
-for i = 1:nprobas
-    MSEs = cellfun(@(algo) MSE(M,probas(i),iter,algo), algos(:,2));
-    MSEs = num2cell(MSEs);
-    results(2:nalgos+1,i+1) = MSEs;
-end
-results
+% for i = 1:nprobas
+%     MSEs = cellfun(@(algo) MSE(M,probas(i),iter,algo), algos(:,2));
+%     MSEs = num2cell(MSEs);
+%     results(2:nalgos+1,i+1) = MSEs;
+% end
+%results
 
+
+% doMAE = logical(cell2mat(algos(:,3)));
+% doMAEalgos = algos(:,2);
+% doMAEalgos = doMAEalgos(doMAE);
+% M1 = randObserve(M,0.01);
+% MAEs_vect = cellfun(@(algo) MAE(M1,algo), doMAEalgos);
+% %MAEs_vect = ones(numel(notSVDalgos),1);
+% MAEs_cell = num2cell(MAEs_vect);
+% MAEs = cell(nalgos,1);
+% %MAEs(1) = {'MAE'};
+% MAEs(doMAE) = MAEs_cell;
+% 
+% results = [results, [{'MAE'};MAEs]]
 
 
 % MSEs = cellfun(@(algo) MSE(M,p,iter,algo), algos(:,2));
