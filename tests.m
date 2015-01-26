@@ -22,18 +22,19 @@ algos = {
     'Witness', @witness;
     'UnbiasedWitness', @UnbiasedWitness;
 
-    'PerUserAverage', @PerUserAverageExt;
-    'BiasFromMean', @BiasFromMeanExt;
+    'PerUserAverage', Ext(@PerUserAverage);
+    'BiasFromMean', Ext(@BiasFromMean);
     
     'PlainSVD', @plainSVD;
     'ShiftSVD', @shiftSVD;
     'UnbiasedSVD', @unbiasedSVD;
     
-    'UserCosSim', @UserCosSimExt;
-    'ItemCosSim', @ItemCosSimExt;
+    'UserCosSim', Ext(@userCosSimilarity);
+    'ItemCosSim', Ext(@itemCosSimilarity);
     
-    'SlopeOne', @SlopeOneExt;
-    'WeightedSlopeOne', @WeightedSlopeOneExt
+    'SlopeOne', Ext(@SlopeOne);
+    'WeightedSlopeOne', Ext(@WeightedSlopeOne);
+    'BiPolarSlopeOne', Ext(@BiPolarSlopeOne);
     };
 [nalgos,~] = size(algos);
 
@@ -67,42 +68,14 @@ results
 % results = [algos(:,1), MSEs, 
 %     %MAEs
 %     ]
-% plainErr = MSE(M,p, iter, @plainSVD)
-% shiftErr = MSE(M,p, iter, @shiftSVD)
-% unbiasErr = MSE(M, p, iter, @unbiasedSVD)
-% witnessErr = MSE(M,p, iter, @witness)
-% biasMeanErr = MSE(M, p,iter, @BiasFromMeanExt)
-% perUsrAvgErr = MSE(M,p,iter,@PerUserAverageExt)
-% userCosErr = MSE(M,p,iter,@UserCosSimExt)
-% itemCosErr = MSE(M,p,iter,@ItemCosSimExt)
-% SlopeOneErr = MSE_1arg(M,p,iter,@SlopeOne)
-% WeightedSlopeOneErr = MSE_1arg(M,p,iter,@WeightedSlopeOne)
-
 
 
 end
 
-function [err] =  MSE_1arg(M,p,iter,f)
-    function Mh = Ext(M,~,~)
-        Mh = f(M);
+
+function[aalgoExt] = Ext(algo)
+    function[Mh] = algoExt(X,~,~)
+        Mh=algo(X);
     end
-    err = MSE(M,p,iter,@Ext);
-end
-function [Mh] =  BiasFromMeanExt(X,~,~)
-    Mh=BiasFromMean(X);
-end
-function [Mh] =  PerUserAverageExt(X,~,~)
-    Mh=PerUserAverage(X);
-end
-function[Mh] = UserCosSimExt(X,~,~)
-    Mh=userCosSimilarity(X);
-end
-function[Mh] = ItemCosSimExt(X,~,~)
-    Mh=itemCosSimilarity(X);
-end
-function[Mh] = SlopeOneExt(X,~,~)
-    Mh=SlopeOne(X);
-end
-function[Mh] = WeightedSlopeOneExt(X,~,~)
-    Mh=WeightedSlopeOne(X);
+    aalgoExt = @algoExt;
 end
