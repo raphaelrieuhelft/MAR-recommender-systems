@@ -1,5 +1,5 @@
 function [R,g] = readjester()
-    jester = csvread('jesterfinal151cols.csv');
+    jester = csvread('data/jesterfinal151cols.csv');
     jester(jester==99)=NaN;
     R=jester/10;
     R=R(1:5000, :);

@@ -1,16 +1,18 @@
 function tests
 
-addpath('CF-Reference')
-addpath('SVD')
-addpath('SlopeOne')
+addpath('utils')
 addpath('ErrorRating')
+addpath('algos')
+addpath('algos/reference')
+addpath('algos/SVD')
+addpath('algos/SlopeOne')
 
 warning('off','MATLAB:singularMatrix')
 warning('off','MATLAB:nearlySingularMatrix')
 
 %%%%%%%
 
-M = load('recommendMatrix.txt');
+M = load('data/recommendMatrix.txt');
 p=0.2;
 iter=3;
 
@@ -42,12 +44,12 @@ results = cell(nalgos+1,nprobas+1);
 results(1,1) = {'Algorithme  \  p'};
 results(2:nalgos+1,1) = algos(:,1);
 results(1,2:nprobas+1) = num2cell(probas);
-% for i = 1:nprobas
-%     MSEs = cellfun(@(algo) MSE(M,probas(i),iter,algo), algos(:,2));
-%     MSEs = num2cell(MSEs);
-%     results(2:nalgos+1,i+1) = MSEs;
-% end
-%results
+for i = 1:nprobas
+    MSEs = cellfun(@(algo) MSE(M,probas(i),iter,algo), algos(:,2));
+    MSEs = num2cell(MSEs);
+    results(2:nalgos+1,i+1) = MSEs;
+end
+results
 
 
 % doMAE = logical(cell2mat(algos(:,3)));
