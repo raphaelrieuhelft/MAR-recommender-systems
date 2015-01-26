@@ -8,16 +8,19 @@ c = M(~isnan(M));
 m=mean(c);
 c= c - m;
 
-[row,col] = find(~isnan(M));
-count = numel(row);
-ignore = arrayfun(@FillA,row,col,(1:count)');
-    function output = FillA(i,j,k)
-        assert(not(isnan(M(i,j))))
-        A(k, i)=1;
-        A(k, n+j)=1;
-        output = 0;
+count=0;
+Mnorm = zeros(n,p);
+for j=1:p
+    for i=1:n
+        if (isnan(M(i,j)))
+        else
+            count=count+1;
+            A(count, i)=1;
+            A(count, n+j)=1;
+        end
     end
-
+end
+assert(count==numel(c));
 b=(A'*A)\(A'*c);
 
 Mnorm = M - ( m + repmat(b(1:n),1,p) + repmat(b(n+1:n+p)',n,1) );
