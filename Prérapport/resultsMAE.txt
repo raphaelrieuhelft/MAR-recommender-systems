@@ -1,0 +1,12 @@
+    'Algorithme'          'd=0.001'
+    'Witness'             [ 0.0776]
+    'UnbiasedWitness'     [ 0.1198]
+    'PerUserAverage'      [ 0.0801]
+    'BiasFromMean'        [ 0.0035]
+    'ShiftSVD'            [ 0.0957]
+    'UnbiasedSVD'         [ 0.1317]
+    'UserCosSim'          [      0]
+    'ItemCosSim'          [      0]
+    'SlopeOne'            [ 0.0035]
+    'WeightedSlopeOne'    [      0]
+    'BiPolarSlopeOne'     [      0]

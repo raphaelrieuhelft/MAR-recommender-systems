@@ -3,7 +3,7 @@ function [ errExp ] = MSE_forJester( Mhelp,M, proba, iter, algHandle,info )
 %   Detailed explanation goes here
 
 num_not_nan = sum(sum(~isnan(M)));
-density = num_not_nan/numel(M);
+density = num_not_nan/numel(M); %0.2412 pour Jester
 assert(proba<=density);
 proba1=proba/density;
 

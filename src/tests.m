@@ -34,7 +34,7 @@ algos = {
     'PerUserAverage', Ext(@PerUserAverage), 1;
     'BiasFromMean', Ext(@BiasFromMean), 1;
     
-    'PlainSVD', @plainSVD, 0;
+    %'PlainSVD', @plainSVD, 0;
     'ShiftSVD', @shiftSVD, 0;
     'UnbiasedSVD', @unbiasedSVD, 0;
     
@@ -69,23 +69,21 @@ names(2:nalgos+1) = algos(:,1);
         results(2:nalgos+1) = num2cell(v);
     end
 
-    function results = MAEs(d)
-        results = cell(nalgos+1,1);
-        results(1) = {strcat('MAE, d=',num2str(d))};
-        v = cellfun(@(algo) MAE(M,d,algo,default_rank),...
-            algos(:,2));
-        results(2:nalgos+1) = num2cell(v);
-    end
-% results = [names ...
-%     MSEsBonus(.05) MSEsJester(.05) ...
-%     MSEsBonus(.2) MSEsJester(.2) ...
-%     MSEsBonus(.5)
-%     ]
 
 
-%%%%%%%%%
+Results_MSE = [names ...
+    MSEsBonus(.05) MSEsJester(.05) ...
+    MSEsBonus(.2) MSEsJester(.2) ...
+    MSEsBonus(.5)
+    ]
 
-%%% eigentaste
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%
+%%% eigentaste %%%
+%%%%%%%%%%%%%%%%%%
 
 %%% courbes permettant de déterminer maxClust optimal pour p=.2 et p=.1
 % maxClust = 50:50:1000;
@@ -95,40 +93,30 @@ names(2:nalgos+1) = algos(:,1);
 % errs = arrayfun(@(m) MSE_forJester(Jh,J,.1,iter,@eigentaste,m),maxClust);
 % plot(maxClust,errs);
 
-%res = { 'Eigentaste', 'Jester, p=0.2', ...
-%    MSE_forJester(Jh,J,.2,iter,@eigentaste,0) }
+eigentest_Jester = { 'p=0.1', 'p=0.2'; ...
+    MSE_forJester(Jh,J,.1,iter,@eigentaste,20), ...
+    MSE_forJester(Jh,J,.2,iter,@eigentaste,600)
+    }
 
 
-% results = cell(nalgos+1,nprobas+1);
-% results(1,1) = {'Algorithme  \  p'};
-% results(2:nalgos+1,1) = algos(:,1);
-% results(1,2:nprobas+1) = num2cell(probas);
-% for i = 1:nprobas
-%     MSEs = cellfun(@(algo) MSE(M,probas(i),iter,algo), algos(:,2));
-%     MSEs = num2cell(MSEs);
-%     results(2:nalgos+1,i+1) = MSEs;
-% end
-% results
+%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%
+%%% MAE %%%
+%%%%%%%%%%%
 
+    function results = MAEs(d) % d: densité des coefficients non NaN
+        results = cell(nalgos+1,1);
+        results(1) = {strcat('d=',num2str(d))};
+        v = cellfun(@(algo) MAE(M,d,algo,default_rank),...
+            algos(:,2));
+        results(2:nalgos+1) = num2cell(v);
+    end
 
-
-
-% MSEs = cellfun(@(algo) MSE(M,p,iter,algo), algos(:,2));
-% MSEs = num2cell(MSEs);
-% 
-% % notSVD = logical([1,1,1,1,0,0,0,1,1,1,1]);
-% % notSVDalgos = algos(:,2);
-% % notSVDalgos = notSVDalgos(notSVD);
-% % M1 = randObserve(M,0.1);
-% % MAEs = cellfun(@(algo) MAE(M1,algo), notSVDalgos);
-% % MAEs = num2cell(MAEs);
-% % t1 = cell(nalgos,1);
-% % t1(notSVD) = MAEs;
-% % MAEs = t1;
-% 
-
-
+%Results_MAE = [names MAEs(.001)]
+%   abandonné car pour d grande c'est trop long 
+%   et pour d petite on a des erreurs égales à 0
+%   car il y a trop peu de coefficients
 
 end
 

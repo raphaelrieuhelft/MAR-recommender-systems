@@ -1,4 +1,4 @@
-function [ err ] = MAE( data, d, algo )
+function [ err ] = MAE( data, d, algo, info )
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -14,7 +14,7 @@ err = nansum(errs)/(sum(cardSu)-sum(cardSu==1));
         assert(not(isnan(data(u,i))))
         data1 = data;
         data1(u,i) = NaN;
-        estim = algo(data1);
+        estim = algo(data1, d, info);
         err1 = abs(estim(u,i)-data(u,i)) / cardSu(u);
     end
 
