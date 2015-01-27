@@ -12,9 +12,16 @@ warning('off','MATLAB:nearlySingularMatrix')
 
 %%%%%%%
 
-M = load('data/recommendMatrix.txt');
 p=0.2;
 iter=3;
+default_rank=10;
+
+M = load('data/recommendMatrix.txt');
+rankM = rank(M);
+
+[Jester,g,g_comp] = readjester();
+Jh = Jester(:,g);
+J = Jester(:,g_comp);
 
 nprobas = 4;
 probas = linspace(0,1,nprobas+2);
@@ -40,16 +47,46 @@ algos = {
     };
 [nalgos,~] = size(algos);
 
-results = cell(nalgos+1,nprobas+1);
-results(1,1) = {'Algorithme  \  p'};
-results(2:nalgos+1,1) = algos(:,1);
-results(1,2:nprobas+1) = num2cell(probas);
-for i = 1:nprobas
-    MSEs = cellfun(@(algo) MSE(M,probas(i),iter,algo), algos(:,2));
-    MSEs = num2cell(MSEs);
-    results(2:nalgos+1,i+1) = MSEs;
-end
-results
+names = cell(nalgos+1,1);
+names(1) = {'Algorithme'};
+names(2:nalgos+1) = algos(:,1);
+
+% notSVD = logical(cell2mat(algos(:,3)));
+% notSVDalgos = algos(:,2); notSVDalgos = notSVDalgos(notSVD);
+
+    function results = MSEsBonus(p)
+        results = cell(nalgos+1,1);
+        results(1) = {strcat('bonus, p=',num2str(p))};
+        v = cellfun(@(algo) MSE(M,p,iter,algo,rankM), algos(:,2));
+        results(2:nalgos+1) = num2cell(v);
+    end
+
+    function results = MSEsJester(p)
+        results = cell(nalgos+1,1);
+        results(1) = {strcat('Jester, p=',num2str(p))};
+        v = cellfun(@(algo) MSE_forJester(Jh,J,p,iter,algo,default_rank),...
+            algos(:,2));
+        results(2:nalgos+1) = num2cell(v);
+    end
+
+results = [names ...
+    MSEsBonus(.05) MSEsJester(.05) ...
+    MSEsBonus(.2) MSEsJester(.2) ...
+    MSEsBonus(.5)
+    ]
+
+
+
+% results = cell(nalgos+1,nprobas+1);
+% results(1,1) = {'Algorithme  \  p'};
+% results(2:nalgos+1,1) = algos(:,1);
+% results(1,2:nprobas+1) = num2cell(probas);
+% for i = 1:nprobas
+%     MSEs = cellfun(@(algo) MSE(M,probas(i),iter,algo), algos(:,2));
+%     MSEs = num2cell(MSEs);
+%     results(2:nalgos+1,i+1) = MSEs;
+% end
+% results
 
 
 % doMAE = logical(cell2mat(algos(:,3)));
