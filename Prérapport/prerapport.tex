@@ -114,13 +114,34 @@ Dans la suite, nous allons comparer nos implémentations de différents algorith
 
 \tableofcontents
 
+\section*{Notations}
+
+$n$ utilisateurs, $p$ objets.
+
+$r_{i,j}$ : note donnée par l'utilisateur $i$ à l'objet $j$.
+
+$\tilde r_{i,j}$ : estimation de la note donnée par l'utilisateur $i$ à l'objet $j$.
+
+$\overline r$ : moyenne des notes connues.
+
+$u_i$ : vecteur des notes attribuées par l'utilisateur $i$.
+
+$v_i$ : vecteur des notes attribuées à l'objet $j$.
+
+$S_i$ : ensemble des objets notés par $i$.
+
+$S^j$ : ensemble des utilisateurs qui ont noté $j$.
+
+$S^{j,k}$ : ensemble des utilisateurs qui ont noté à la fois $j$ et $k$.
+
 \section{Les algorithmes utilisés}
 	\subsection{Algorithmes témoins}
 		Algorithmes simples (voire naïfs pour certains) servant de points de comparaison : 
 			\begin{itemize}
 				\item{"Witness" : Estimer tous les ratings inconnus par la moyenne de tous les ratings exprimés}
-				\item{"PerUserAverage" : Estimer tous les ratings inconnus pour un utilisateur donné par la moyenne des ratings connus qu'il a attribués}
-				\item{"BiasFromMean" : Estimer la note donnée par un utilisateur à un objet en fonction de sa moyenne, mais aussi des écarts entre les notes attribuées à l'objet et les moyennes des utilisateurs qui l'ont noté}
+				\item{"PerUserAverage" : Estimer tous les ratings inconnus pour un utilisateur $i$ donné par la moyenne $\overline u_i$ des ratings connus qu'il a attribués}
+				\item{"BiasFromMean" : Tenir compte en plus de l'écart entre les notes attribuées à l'objet et les moyennes des utilisateurs qui l'ont noté : 
+				$\tilde r_{i,j}=\overline u_i + \frac{1}{\card S^j} \sum\limits_{i'\in S^j} (r_{i,j} - \overline u_{i'})$.
 				\item{"UnbiasedWitness" : Retirer les biais (cf. \ref{simCos}), estimer tous les ratings inconnus par $0$, remettre les biais}
 			\end{itemize}
 	
