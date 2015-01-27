@@ -152,8 +152,8 @@ Dans la suite, nous allons comparer nos implémentations de différents algorith
 		Plutôt que de se contenter de retrancher le rating moyen partout, on calcule les biais en résolvant le problème d'optimisation vu en cours comme en section \ref{simCos}, on applique l'algorithme du DM à la matrice non biaisée puis on réintroduit les biais.
 		On s'attend à un résultat plus précis, mais le temps de calcul des biais est non négligeable (il faut inverser une matrice).
 		
-	\subsection{Analyse en composantes principales : algorithme Eigentaste\cite{Goldberg2001}}
-		Idée : s'appuyer sur un petit sous-ensemble d'objets notés par tous les utilisateurs (\emph{gauge set}) pour projeter un utilisateur sur un espace de petite dimension puis estimer ses notes à partir de celles de ses voisins au sens d'un algorithme de clustering. Eigentaste ne s'applique donc qu'aux jeux de données comprenant un tel gauge set, comme le jeu de données Jester.
+	\subsection{Analyse en composantes principales : algorithme Eigentaste}
+		Idée : s'appuyer sur un petit sous-ensemble d'objets notés par tous les utilisateurs (\emph{gauge set}) pour projeter un utilisateur sur un espace de petite dimension puis estimer ses notes à partir de celles de ses voisins au sens d'un algorithme de clustering. Eigentaste ne s'applique donc qu'aux jeux de données comprenant un tel gauge set, comme le jeu de données Jester. L'algorithme est détaillé dans \cite{Goldberg2001}, nous le reprenons ici.
 		
 		Notons $R$ la matrice $(n\times m)$ des ratings, $G$ le gauge set, $k=|G|$.
 		
@@ -232,7 +232,7 @@ Dans la suite, nous allons comparer nos implémentations de différents algorith
 
 		Une bonne partie du temps de calcul est passé à inverser des matrices presque singulières pour calculer les biais... Ainsi, l'algorithme UnbiasedWitness, qui est très simple conceptuellement et parmi les plus précis sur les deux jeux de données, est loin d'être le moins coûteux en terme de temps de calcul.
 				
-		Il faut aussi tenir compte du fait que certains algos (Slope One oui, SVD non) calculent des choses "une fois pour toutes", et c'est rapide d'ajouter un utilisateur et/ou de faire une requête.
+		Il faut aussi tenir compte du fait que certains algorithmes (tels que Slope One ou Eigentaste, mais pas les variantes de SVD) font beaucoup de calculs "une fois pour toutes" (\emph{off-line}). Une fois ces calculs faits, les requêtes et l'ajout d'un nouvel utilisateur sont rapides. 
 		
 \bibliographystyle{plain}
 \bibliography{biblio}
