@@ -13,7 +13,7 @@ warning('off','MATLAB:nearlySingularMatrix')
 %%%%%%%
 
 p=0.2;
-iter=3;
+iter=1;
 default_rank=10;
 
 M = load('data/recommendMatrix.txt');
@@ -75,6 +75,9 @@ results = [names ...
     MSEsBonus(.5)
     ]
 
+
+res = { 'Eigentaste', 'Jester, p=0.2', ...
+    MSE_forJester(Jh,J,.2,iter,@eigentaste,0) }
 
 
 % results = cell(nalgos+1,nprobas+1);
