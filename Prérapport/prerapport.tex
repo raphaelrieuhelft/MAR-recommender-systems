@@ -93,7 +93,8 @@
 \begin{document}
 
 \title{Algorithmes pour les systèmes de recommandation : un comparatif}
-\date{}
+\author{Diane Gallois-Wong \and Raphaël Rieu-Helft}
+\date{Janvier 2015}
 \maketitle
 \section*{Introduction}
 
@@ -231,7 +232,7 @@ $S^{j,k}$ : ensemble des utilisateurs qui ont noté à la fois $j$ et $k$.
 		
 \section{Observations expérimentales}
 	\subsection{Jeux de données}
-	\subsubsection{La matrice du DM}
+	\subsubsection{La matrice de la question bonus du DM}
 		
 		Il s'agit d'une matrice pleine, de taille $100 \times 1000$ et de rang $10$, dont les coefficients sont des réels entre $0$ et $1$. Pour évaluer un algorithme, on fixe une probabilité $p$, on fournit à l'algorithme une sous-matrice dans laquelle chaque rating est présent avec probabilité $p$ (de façon indépendante des autres), on s'en sert pour calculer une matrice pleine qu'on compare avec la matrice de départ.
 		
@@ -266,7 +267,7 @@ $S^{j,k}$ : ensemble des utilisateurs qui ont noté à la fois $j$ et $k$.
 		
 		\begin{figure}[ht!]
 			\centering
-			\includegraphics[width=0.9\linewidth]{MAE_cropped.pdf}
+			\includegraphics[width=0.5\linewidth]{MAE_cropped.pdf}
 			\caption{Erreur MAE sur la matrice du DM}
 		\end{figure}
 		
