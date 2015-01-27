@@ -86,6 +86,7 @@ Results_MSE = [names ...
 %%%%%%%%%%%%%%%%%%
 
 %%% courbes permettant de déterminer maxClust optimal pour p=.2 et p=.1
+%%% commenté car un peu long (quand même <1min) et le faire une fois pour toutes suffit
 % maxClust = 50:50:1000;
 % errs = arrayfun(@(m) MSE_forJester(Jh,J,.2,iter,@eigentaste,m),maxClust);
 % plot(maxClust,errs);
@@ -113,10 +114,9 @@ eigentest_Jester = { 'p=0.1', 'p=0.2'; ...
         results(2:nalgos+1) = num2cell(v);
     end
 
-%Results_MAE = [names MAEs(.001)]
-%   abandonné car pour d grande c'est trop long 
-%   et pour d petite on a des erreurs égales à 0
-%   car il y a trop peu de coefficients
+%%% commenté car un peu long (de l'ordre d'une minute)
+%Results_MAE = [names MAEs(.1) MAEs(.2)]
+
 
 end
 

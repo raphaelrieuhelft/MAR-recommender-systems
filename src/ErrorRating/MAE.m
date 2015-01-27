@@ -2,11 +2,17 @@ function [ err ] = MAE( data, d, algo, info )
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
 
+num_questions = 100;
+proba_question = num_questions/(d*numel(data));
+
 data = randObserve(data,d);
 
-[r,c] = find(~isnan(data));
+[row,col] = find(~isnan(data));
+questions = rand(numel(row),1)<proba_question;
+row = row(questions); col = col(questions);
+
 cardSu = sum(~isnan(data), 2);
-errs = arrayfun(@HideAndGuess,r,c);
+errs = arrayfun(@HideAndGuess,row,col);
 err = nansum(errs)/(sum(cardSu)-sum(cardSu==1));
 
 
