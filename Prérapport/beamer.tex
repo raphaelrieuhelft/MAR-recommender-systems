@@ -14,25 +14,10 @@
 \usepackage[utf8]{inputenc}
 %\usepackage[T1]{fontenc}
 \usepackage{pgf,tikz}
-\usepackage{bm}
-\usetikzlibrary{arrows,babel, cd, patterns} %cd : diagrammes commutatifs
-\usepackage{fancyvrb}
-\usepackage{tikz-cd} %diagrammes commutatifs
-\usepackage{syntax} %grammaire
-\usepackage{proof}
-%\usepackage{lipsum}
 
 
 
-
-\usepackage{floatflt}
-\usepackage{import}
-\usepackage{xcolor}
-%\usepackage{fourier-orns}
 %\usepackage{titletoc}
-
-
-
 
 \newcounter{moncompteur}
 \newtheorem{q}[moncompteur]{\textbf{Question}}{}
@@ -85,31 +70,9 @@
 \newcommand{\longrightleftarrows}{\myrightleftarrows{\rule{1cm}{0cm}}}
 \newcommand{\ZnZ}{\Z/n\Z}
 
-\definecolor{bleuclair}{rgb}{0.75,0.75,1.0}
-\newcommand{\ANNOT}[1]{
-  \linebreak
-  %\centerline{
-    %{\Huge{\danger}}
-    \large\fcolorbox{black}{bleuclair}{
-      \begin{minipage}[h]{.8\linewidth}
-      #1
-      \end{minipage}
-    }
-    %{\Huge{\danger}}
-  %}
-}
 
 
-
-\newcommand\MyLine[3][]{%
-  \begin{tikzpicture}[overlay,remember picture]
-    \draw[#1] (#2.north west) -- (#3.south east);
-  \end{tikzpicture}}
-
-
-\graphicspath{{.}}
-\newcommand{\e}[1]{$\times 10^{#1}$}
-
+\graphicspath{{./}}
 
 
 \setbeamertemplate{navigation symbols}{%
@@ -128,7 +91,17 @@
 		\titlepage
 	\end{frame}
 	\begin{frame}
+		\frametitle{Introduction}
+		Collaborative filtering
 		
+		\bigskip
+		
+		Objectif : \begin{itemize}
+			\item Requêtes rapides
+			\item Précision
+			\item Ajout rapide d'un nouvel utilisateur
+			\item Démarrage à froid
+		\end{itemize}
 	\end{frame}
 	\begin{frame}
 		
@@ -142,13 +115,20 @@
 	\begin{frame}
 		
 	\end{frame}
-	\begin{frame}[fragile]
-		\begin{center}
-	
-		\includegraphics{eigentaste_proj_cropped.pdf}
-	
-		\end{center}
-	\end{frame}
+\frame[plain]{
+	\includegraphics[width=\linewidth]{eigentaste_proj_cropped.pdf}
+	}
+	\frame[plain]{
+		\includegraphics[width=\linewidth]{resultatsRapport_cropped.pdf}
+	}
+	\frame[plain]{
+		\includegraphics[width=\linewidth]{MAE_cropped.pdf}
+	}
+	\frame[plain]{
+		\centering
+		\includegraphics[width=0.4\linewidth]{optimalMaxClust01_cropped.pdf}
+		\includegraphics[width=0.4\linewidth]{optimalMaxClust02_cropped.pdf}
+	}
 	
 \end{document}
 
