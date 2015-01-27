@@ -54,3 +54,7 @@ jester-data-1.xls
 jesterfinal151cols.csv
 src/data
 *.toc
+*.vrb
+*.snm
+*.out
+*.nav

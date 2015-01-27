@@ -238,7 +238,7 @@ $S^{j,k}$ : ensemble des utilisateurs qui ont noté à la fois $j$ et $k$.
 		On peut tester sur cette matrice tous les algorithmes présentés sauf Eigentaste (pas de gauge set).
 		
 	\subsubsection{Le jeu de données Jester}
-		Jeu de données mis à disposition par Ken Goldberg (Berkeley). Il s'agit de ratings d'une centaine de blagues par de nombreux utilisateurs (plus de $50 000$). Huit blagues ont été notées par tous les utilisateurs : on s'en sert comme gauge test pour implémenter Eigentaste. Les coefficients varient continûment de $-10$ à $10$ : on les ramène à $[0,1]$ par une transformation affine pour mieux comparer avec la matrice du DM.
+		Jeu de données mis à disposition par Ken Goldberg (Berkeley). Il s'agit de ratings d'une centaine de blagues par de nombreux utilisateurs (plus de $50 000$). Huit blagues ont été notées par tous les utilisateurs : on s'en sert comme gauge set pour implémenter Eigentaste. Les coefficients varient continûment de $-10$ à $10$ : on les ramène à $[0,1]$ par une transformation affine pour mieux comparer avec la matrice du DM.
 		
 		La densité $d$ de la matrice est d'environ $0.24$. Pour $p<d$, on conserve une proportion $p/d$ des coefficients aléatoirement : on obtient à nouveau une matrice de densité $p$ pour pouvoir comparer avec le jeu de données précédent.
 		

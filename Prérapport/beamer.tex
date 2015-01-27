@@ -1,0 +1,154 @@
+\documentclass[18pt]{beamer}
+\usepackage{etex}
+\usepackage{beamerthemesplit} % new
+\usetheme[secheader]{Madrid}
+%\usetheme{Warsaw}
+\usecolortheme{dolphin}
+\usepackage{graphicx}
+%\usepackage{landscape}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage[frenchb]{babel}
+\usepackage{amstext}
+\usepackage[utf8]{inputenc}
+%\usepackage[T1]{fontenc}
+\usepackage{pgf,tikz}
+\usepackage{bm}
+\usetikzlibrary{arrows,babel, cd, patterns} %cd : diagrammes commutatifs
+\usepackage{fancyvrb}
+\usepackage{tikz-cd} %diagrammes commutatifs
+\usepackage{syntax} %grammaire
+\usepackage{proof}
+%\usepackage{lipsum}
+
+
+
+
+\usepackage{floatflt}
+\usepackage{import}
+\usepackage{xcolor}
+%\usepackage{fourier-orns}
+%\usepackage{titletoc}
+
+
+
+
+\newcounter{moncompteur}
+\newtheorem{q}[moncompteur]{\textbf{Question}}{}
+\newtheorem{prop}[moncompteur]{\textbf{Proposition}}{}
+\newtheorem{df}[moncompteur]{\textbf{Définition}}{}
+\newtheorem*{df*}{\textbf{Définition}}{}
+\newtheorem*{prop*}{\textbf{Proposition}}{}
+\newtheorem*{theo*}{\textbf{Théorème}}{}
+
+\newtheorem{rem}[moncompteur]{\textbf{Remarque}}{}
+\newtheorem{theo}[moncompteur]{\textbf{Théorème}}{}
+\newtheorem{conj}[moncompteur]{\textbf{Conjecture}}{}
+\newtheorem{cor}[moncompteur]{\textbf{Corollaire}}{}
+\newtheorem{lm}[moncompteur]{\textbf{Lemme}}{}
+%\newtheorem{nota}[moncompteur]{\textbf{Notation}}{}
+%\newtheorem{conv}[moncompteur]{\textbf{Convention}}{}
+\newtheorem{exa}[moncompteur]{\textbf{Exemple}}{}
+\newtheorem{ex}[moncompteur]{\textbf{Exercice}}{}
+%\newtheorem{app}[moncompteur]{\textbf{Application}}{}
+%\newtheorem{prog}[moncompteur]{\textbf{Algorithme}}{}
+%\newtheorem{hyp}[moncompteur]{\textbf{Hypothèse}}{}
+\newenvironment{dem}{\noindent\textbf{Preuve}\\}{\flushright$\blacksquare$\\}
+\newcommand{\cg}{[\kern-0.15em [}
+\newcommand{\cd}{]\kern-0.15em]}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\K}{\mathbb{K}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\U}{\mathbb{U}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\B}{\mathbb{B}}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\card}{\mathrm{card}}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+%\pgfplotsset{compat=newest}
+\newcommand{\La}{\mathcal{L}}
+\newcommand{\Ne}{\mathcal{N}}
+\newcommand{\D}{\mathcal{D}}
+\newcommand{\Ss}{\textsc{safestay}}
+\newcommand{\Sg}{\textsc{safego}}
+\newcommand{\M}{\textsc{move}}
+\newcommand{\E}{\mathcal{E}}
+\newcommand{\V}{\mathcal V}
+\newcommand{\A}{\mathcal A}
+\newcommand{\T}{\mathcal T}
+\newcommand{\Ca}{\mathcal C}
+\setlength{\parindent}{0pt}
+\newcommand{\myrightleftarrows}[1]{\mathrel{\substack{\xrightarrow{#1} \\[-.6ex] \xleftarrow{#1}}}}
+\newcommand{\longrightleftarrows}{\myrightleftarrows{\rule{1cm}{0cm}}}
+\newcommand{\ZnZ}{\Z/n\Z}
+
+\definecolor{bleuclair}{rgb}{0.75,0.75,1.0}
+\newcommand{\ANNOT}[1]{
+  \linebreak
+  %\centerline{
+    %{\Huge{\danger}}
+    \large\fcolorbox{black}{bleuclair}{
+      \begin{minipage}[h]{.8\linewidth}
+      #1
+      \end{minipage}
+    }
+    %{\Huge{\danger}}
+  %}
+}
+
+
+
+\newcommand\MyLine[3][]{%
+  \begin{tikzpicture}[overlay,remember picture]
+    \draw[#1] (#2.north west) -- (#3.south east);
+  \end{tikzpicture}}
+
+
+\graphicspath{{.}}
+\newcommand{\e}[1]{$\times 10^{#1}$}
+
+
+
+\setbeamertemplate{navigation symbols}{%
+%\insertslidenavigationsymbol
+%\insertframenavigationsymbol
+%\insertsubsectionnavigationsymbol
+%\insertsectionnavigationsymbol
+%\insertdocnavigationsymbol
+%\insertbackfindforwardnavigationsymbol
+}
+
+\title[Filtrage collaboratif]{Algorithmes pour les systèmes de recommandation : un comparatif}
+\author{Diane Gallois-Wong, Raphaël Rieu-Helft}
+\begin{document}
+	\begin{frame}
+		\titlepage
+	\end{frame}
+	\begin{frame}
+		
+	\end{frame}
+	\begin{frame}
+		
+	\end{frame}
+	\begin{frame}
+		
+	\end{frame}
+	\begin{frame}
+		
+	\end{frame}
+	\begin{frame}
+		
+	\end{frame}
+	\begin{frame}[fragile]
+		\begin{center}
+	
+		\includegraphics{eigentaste_proj_cropped.pdf}
+	
+		\end{center}
+	\end{frame}
+	
+\end{document}
+
