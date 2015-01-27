@@ -111,18 +111,21 @@ On peut s'attendre à ce que l'efficacité d'un algorithme varie selon les carac
 
 Dans la suite, nous allons comparer nos implémentations de différents algorithmes de collaborative filtering en terme de précision (au sens de l'erreur MSE) et de temps de calcul (pour fournir une estimation complète des ratings à partir d'une matrice à trous).
 
+
+\tableofcontents
+
 \section{Position du problème}
 
 Notations ?
 
 \section{Les algorithmes utilisés}
 	\subsection{Algorithmes témoins}
-		Algorithmes naïfs servant de point de comparaison : 
+		Algorithmes simples (voire naïfs pour certains) servant de points de comparaison : 
 			\begin{itemize}
-				\item{"Witness" : Estimer tous les ratings inconnus par la moyenne de tous les ratings possibles}
+				\item{"Witness" : Estimer tous les ratings inconnus par la moyenne de tous les ratings exprimés}
 				\item{"PerUserAverage" : Estimer tous les ratings inconnus pour un utilisateur donné par la moyenne des ratings connus qu'il a attribués}
 				\item{"BiasFromMean" : Estimer la note donnée par un utilisateur à un objet en fonction de sa moyenne, mais aussi des écarts entre les notes attribuées à l'objet et les moyennes des utilisateurs qui l'ont noté}
-				\item{"UnbiasedWitness" : Retirer les biais comme dans le cours, estimer tous les ratings inconnus par $0$, remettre les biais}
+				\item{"UnbiasedWitness" : Retirer les biais (cf. \ref{simCos}), estimer tous les ratings inconnus par $0$, remettre les biais}
 			\end{itemize}
 	
 	\subsection{Algorithmes Slope One}
@@ -186,18 +189,30 @@ Notations ?
 		
 		En revanche, ajouter un utilisateur qui a noté le gauge set est peu coûteux en termes de temps de calcul : on peut lui recommander rapidement des objets dès qu'on a choisi son cluster, l'idée étant de ne pas modifier immédiatement les projections des anciens utilisateurs mais plutôt de tout remettre à jour périodiquement.
 		
-		Dans la suite, on se propose de comparer Eigentaste avec d'autres algorithmes de recommandation en termes de précision et de temps de calcul, sur le jeu de données Jester.
+		Dans la suite, on se propose de comparer Eigentaste avec d'autres algorithmes de recommandation en termes de précision et de temps de calcul, sur le jeu de données Jester (pour lequel Eigentaste a été mis au point).
 		
 		
 		
 		
 \section{Observations expérimentales}
 	\subsection{Jeux de données}
-		\begin{itemize}
-			\item{Matrice de la question bonus du DM (pleine, on observe seulement une certaine fraction des ratings)}
-			\item{Jeu de données Jester (ratings d'une centaine de blagues, dix blagues sont notées par toutes les utilisateurs) utilisé pour Eigentaste.}
-			\item{Jeu de données plus grand (MovieLens) pour mesurer les difficultés liées aux temps d'exécutions dans des conditions plus réalistes ?}
-		\end{itemize}
+	\subsubsection{La matrice du DM}
+		
+		Il s'agit d'une matrice pleine, de taille $100 \times 1000$ et de rang $10$. Pour évaluer un algorithme, on fixe une probabilité $p$, on fournit à l'algorithme une sous-matrice dans laquelle chaque rating est présent avec probabilité $p$ (de façon indépendante des autres), on s'en sert pour calculer une matrice pleine qu'on compare avec la matrice de départ.
+		
+		On peut tester sur cette matrice tous les algorithmes présentés sauf Eigentaste (pas de gauge set).
+		
+	\subsubsection{Le jeu de données Jester}
+		Jeu de données mis à disposition par Ken Goldberg (Berkeley). Il s'agit de ratings d'une centaine de blagues par de nombreux utilisateurs (plus de $50 000$). Huit blagues ont été notées par tous les utilisateurs : on s'en sert comme gauge test pour implémenter Eigentaste. 
+		
+		Comme le rang de la matrice cible est inconnu (elle n'est pas pleine) les algorithmes à base de SVD donnent d'assez mauvais résultats (en ne tronquant pas du tout la décomposition en valeurs singulières).
+		
+		Contrairement à la matrice du DM, les objets notés par les utilisateurs ne sont pas choisis au hasard : il s'agit de recommandations qu'on leur a faites après qu'ils ont noté le gauge set, ils ont donc plutôt tendance à noter des objets qu'ils apprécient.
+		
+		Par ailleurs, la forme de la matrice est inversée par rapport à celle du DM : il y a beaucoup d'utilisateurs et très peu d'objets.
+		
+		Pour avoir des temps de calcul et des utilisations mémoire raisonnables sur nos machines personnelles, nous nous sommes restreints aux $5000$ premiers utilisateurs.
+		
 	\subsection{Mesures d'erreur}
 	
 		\begin{figure}[ht!]
