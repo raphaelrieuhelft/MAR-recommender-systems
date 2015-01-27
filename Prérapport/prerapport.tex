@@ -106,6 +106,10 @@ Efficacité peut varier selon la forme du jeu de données (sparsity...)
 
 Objectif : Implémenter (en Matlab) et comparer différents algorithmes en terme de précision et de temps d'exécution sur différents jeux de données, mettre en relief les compromis à faire.
 
+\section{Position du problème}
+
+Notations ?
+
 \section{Les algorithmes utilisés}
 	\subsection{Algorithmes témoins}
 		Algorithmes naïfs servant de point de comparaison : 
@@ -115,12 +119,7 @@ Objectif : Implémenter (en Matlab) et comparer différents algorithmes en terme
 				\item{"BiasFromMean" : Estimer la note donnée par un utilisateur à un objet en fonction de sa moyenne, mais aussi des écarts entre les notes attribuées à l'objet et les moyennes des utilisateurs qui l'ont noté}
 				\item{"UnbiasedWitness" : Retirer les biais comme dans le cours, estimer tous les ratings inconnus par $0$, remettre les biais}
 			\end{itemize}
-	\subsection{SVD}
-		Variantes sur la question bonus du DM (comment traiter les trous dans la matrice, avec ou sans traitement des biais...).
-		\begin{itemize}
-			\item{"ShiftSVD" : translater la matrice pour avoir $0$ de moyenne, SVD, retranslater}
-			\item{"UnbiasedSVD" : enlever les biais, SVD, remettre les biais}
-		\end{itemize}
+	
 	\subsection{Algorithmes Slope One}
 		Prédicteur affine, en imposant une pente de 1. Pour tout couple d'objet, on définit une déviation de l'un par rapport à l'autre, un peu comme la mesure de similarité cosinus, mais en beaucoup plus simple (linéaire). La prédiction de la note attribuée à un objet s'obtient alors en ajoutant la moyenne de l'utilisateur et la moyenne des déviations de l'objet aux autres objets notés par l'utilisateur. D'où un prédicteur de forme $f(x)=x+b$.
 	
@@ -134,7 +133,20 @@ Objectif : Implémenter (en Matlab) et comparer différents algorithmes en terme
 		
 		Algorithmes tirés de \cite{Lemire2007}.
 	\subsection{Algorithmes par similarité cosinus}
-		Implémentation des algorithmes vus en cours : "itemCosSimilarity", "userCosSimilarity".
+		\label{simCos}
+		Implémentation des algorithmes vus en cours : on calcule les biais en résolvant le problème d'optimisation $$\min_{b^i, b_j}\sum_{i,j\in\Omega}(r_{ij} - \overline{r} - b^i - b_j)$$ via la solution matricielle du cours, puis on calcule des scores de similarité entre utilisateurs ou entre objets en utilisant le cosinus de l'angle comme mesure de similarité entre deux vecteurs et on estime les ratings comme une moyenne pondérée par les scores de similarité.
+		
+	\subsection{SVD}
+	Variations sur la question bonus du DM $2$. L'algorithme du DM commence par estimer les ratings inconnus à $0$ avant d'appliquer la décomposition en valeurs singulières. L'estimation à 0 permet de faire des calculs sur des matrices creuses quand on connaît peu de ratings, donc un temps de calcul plus court. Les variantes qui suivent opèrent différentes transformations sur la matrice à estimer avant d'appliquer l'algorithme du DM, le but étant que l'estimation à 0 soit aussi pertinente que possible.
+
+		\subsubsection{ShiftSVD} 
+		
+		On calcule le rating moyen $\overline{r}$, on applique l'algorithme du DM à $R-\overline{r}$ et on ajoute $\overline{r}$ au résultat.
+			
+		\subsubsection{UnbiasedSVD}
+		
+		Plutôt que de se contenter de retrancher le rating moyen partout, on calcule les biais en résolvant le problème d'optimisation vu en cours comme en section \ref{simCos}, on applique l'algorithme du DM à la matrice non biaisée puis on réintroduit les biais.
+		On s'attend à un résultat plus précis, mais le temps de calcul des biais est non négligeable (il faut inverser une matrice).
 		
 	\subsection{Analyse en composantes principales : algorithme Eigentaste\cite{Goldberg2001}}
 		Idée : s'appuyer sur un petit sous-ensemble d'objets notés par tous les utilisateurs (\emph{gauge set}) pour projeter un utilisateur sur un espace de petite dimension puis estimer ses notes à partir de celles de ses voisins au sens d'un algorithme de clustering. Eigentaste ne s'applique donc qu'aux jeux de données comprenant un tel gauge set, comme le jeu de données Jester.
