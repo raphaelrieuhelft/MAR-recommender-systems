@@ -114,10 +114,6 @@ Dans la suite, nous allons comparer nos implémentations de différents algorith
 
 \tableofcontents
 
-\section{Position du problème}
-
-Notations ?
-
 \section{Les algorithmes utilisés}
 	\subsection{Algorithmes témoins}
 		Algorithmes simples (voire naïfs pour certains) servant de points de comparaison : 
@@ -198,12 +194,12 @@ Notations ?
 	\subsection{Jeux de données}
 	\subsubsection{La matrice du DM}
 		
-		Il s'agit d'une matrice pleine, de taille $100 \times 1000$ et de rang $10$. Pour évaluer un algorithme, on fixe une probabilité $p$, on fournit à l'algorithme une sous-matrice dans laquelle chaque rating est présent avec probabilité $p$ (de façon indépendante des autres), on s'en sert pour calculer une matrice pleine qu'on compare avec la matrice de départ.
+		Il s'agit d'une matrice pleine, de taille $100 \times 1000$ et de rang $10$, dont les coefficients sont des réels entre $0$ et $1$. Pour évaluer un algorithme, on fixe une probabilité $p$, on fournit à l'algorithme une sous-matrice dans laquelle chaque rating est présent avec probabilité $p$ (de façon indépendante des autres), on s'en sert pour calculer une matrice pleine qu'on compare avec la matrice de départ.
 		
 		On peut tester sur cette matrice tous les algorithmes présentés sauf Eigentaste (pas de gauge set).
 		
 	\subsubsection{Le jeu de données Jester}
-		Jeu de données mis à disposition par Ken Goldberg (Berkeley). Il s'agit de ratings d'une centaine de blagues par de nombreux utilisateurs (plus de $50 000$). Huit blagues ont été notées par tous les utilisateurs : on s'en sert comme gauge test pour implémenter Eigentaste. 
+		Jeu de données mis à disposition par Ken Goldberg (Berkeley). Il s'agit de ratings d'une centaine de blagues par de nombreux utilisateurs (plus de $50 000$). Huit blagues ont été notées par tous les utilisateurs : on s'en sert comme gauge test pour implémenter Eigentaste. Les coefficients varient continûment de $-10$ à $10$ : on les ramène à $[0,1]$ par une transformation affine pour mieux comparer avec la matrice du DM.
 		
 		Comme le rang de la matrice cible est inconnu (elle n'est pas pleine) les algorithmes à base de SVD donnent d'assez mauvais résultats (en ne tronquant pas du tout la décomposition en valeurs singulières).
 		
@@ -221,10 +217,10 @@ Notations ?
 		\end{figure}
 		Sur la matrice du DM, on obtient ce tableau d'erreurs MSE pour différentes valeurs de p :
 		
-		Eigentaste et quelques autres ne sont pas encore implémentés.
-		à venir aussi : une autre mesure d'erreur, et des mesures sur les autres jeux de données.
 		
-		L'algorithme simple "BiasFromMean" obtient d'excellents résultats !  Les variantes de Slope One obtiennent aussi des résultats très comparables aux algorithmes SVD plus complexes à mettre en œuvre.
+		Les algorithmes simples "BiasFromMean" et "UnbiasedWitness" obtient d'excellents résultats ! Les variantes de Slope One obtiennent aussi des résultats très comparables à l'algorithme UnbiasedSVD plus complexe à mettre en œuvre.
+		
+		On observe que sur la matrice du DM, il est préférable de considérer la similarité par utilisateur, alors que pour le jeu de données Jester, il vaut mieux utiliser la similarité par objet : c'est très probablement lié au fait que dans le jeu de données Jester, il y a beaucoup plus d'utilisateurs que d'objets alors que c'est l'inverse dans la matrice du DM.
 	\subsection{Temps d'exécution}
 	
 		\begin{figure}[ht!]
@@ -234,8 +230,8 @@ Notations ?
 		\end{figure}
 		
 
-		Les algorithmes qui enlèvent et remettent les biais comme dans le cours s'exécutent beaucoup plus lentement : il faut inverser une matrice creuse, et on n'a pas réussi à vectoriser une partie du calcul de l'argmin pour les biais. Il faudra essayer l'expression plus naïve des biais et voir ce qu'on gagne en temps/perd en précision.
-		
+		Une bonne partie du temps de calcul est passé à inverser des matrices presque singulières pour calculer les biais... Ainsi, l'algorithme UnbiasedWitness, qui est très simple conceptuellement et parmi les plus précis sur les deux jeux de données, est loin d'être le moins coûteux en terme de temps de calcul.
+				
 		Il faut aussi tenir compte du fait que certains algos (Slope One oui, SVD non) calculent des choses "une fois pour toutes", et c'est rapide d'ajouter un utilisateur et/ou de faire une requête.
 		
 \bibliographystyle{plain}
