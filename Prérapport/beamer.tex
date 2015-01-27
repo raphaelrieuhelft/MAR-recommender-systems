@@ -84,7 +84,7 @@
 %\insertbackfindforwardnavigationsymbol
 }
 
-\title[Filtrage collaboratif]{Algorithmes pour les systèmes de recommandation : un comparatif}
+\title[Filtrage collaboratif]{Algorithmes pour les systèmes de recommandation :\\ un comparatif}
 \author{Diane Gallois-Wong, Raphaël Rieu-Helft}
 \begin{document}
 	\begin{frame}
@@ -114,7 +114,24 @@
 		\end{itemize}
 	\end{frame}
 	\begin{frame}
-		\frametitle{Slope One}	
+		\frametitle{Slope One}
+		$$dev_{j,k} = \sum\limits_{i\in S^{j,k}}
+				\frac{r_{i,j}-r_{i,k}}{\card S^{j,k}}$$
+				
+		$$\tilde r_{i,j} = \overline u_i + \frac{1}{\card R_{i,j}} \sum\limits_{k\in R_{i,j}} dev_{j,k}$$	
+		
+		
+		
+		\begin{itemize}
+		\item
+		Calculs simples
+		\item
+		Réponse rapide à une requête $\tilde r_{i,j}?$
+		\quad (précalcul de $dev$)
+		\item
+		Ajout d'un nouvel utilisateur : actualisation facile
+		\end{itemize}
+		
 	\end{frame}
 	\begin{frame}
 		\frametitle{SVD}
