@@ -260,7 +260,7 @@ $S^{j,k}$ : ensemble des utilisateurs qui ont noté à la fois $j$ et $k$.
 		Sur la matrice du DM, on obtient ce tableau d'erreurs MSE pour différentes valeurs de $p$ :
 		
 		
-		Les algorithmes simples "BiasFromMean" et "UnbiasedWitness" obtient d'excellents résultats ! Les variantes de Slope One obtiennent aussi des résultats très comparables à l'algorithme UnbiasedSVD plus complexe à mettre en œuvre.
+		Les algorithmes simples "BiasFromMean" et "UnbiasedWitness" obtiennent d'excellents résultats ! Les variantes de Slope One obtiennent aussi des résultats très comparables à l'algorithme UnbiasedSVD plus complexe à mettre en œuvre.
 		
 		ItemCosSim est plus performant que UserCosSim sur les deux jeux de données, mais la différence est bien plus marquée sur le jeu de données Jester : c'est sans doute lié à la forme particulière de la matrice (il y a très peu d'objets par rapport au nombre d'utilisateurs).
 		
@@ -272,7 +272,9 @@ $S^{j,k}$ : ensemble des utilisateurs qui ont noté à la fois $j$ et $k$.
 		
 		Nous avons aussi évalué l'erreur MAE (Mean Absolute Error) sur la matrice du DM. Il s'agit d'un protocole différent : il consiste à estimer successivement un seul rating à partir de tous les autres, et à prendre la moyenne de l'erreur absolue commise. Comme il s'agit d'une norme 1 plutôt que d'une norme 2, de grosses erreurs ponctuelles nuisent moins à la précision, tandis que de petites erreurs consistentes nuisent plus.
 		
-		Ainsi, les algorithmes performants au sens des erreurs MSE et MAE diffèrent sensiblement : les algorithmes témoins comme UnbiasedWitness et BiasFromMean sont cette fois nettement moins performants que les variantes de SVD et SlopeOne. Enfin, UserCosSim semble être le meilleur algorithme pour MAE, très nettement devant ItemCosSim alors que c'était l'inverse pour MSE. 
+		Ainsi, les algorithmes performants au sens des erreurs MSE et MAE diffèrent sensiblement : les algorithmes témoins comme UnbiasedWitness et BiasFromMean sont cette fois nettement moins performants que les variantes de SVD et SlopeOne. 
+		
+		Enfin, UserCosSim semble être le meilleur algorithme pour MAE, très nettement devant ItemCosSim alors que c'était l'inverse pour MSE. Peut-être est-ce dû à la forme des données : peu d'utilisateurs et beaucoup d'objets. UserCosSim estime le vecteur d'un utilisateur à partir des autres vecteurs d'utilisateurs : il y en a peu, mais ils ont une très grande dimension. On va donc souvent s'inspirer d'utilisateurs qui ont des goûts extrêment proches de celui qui nous intéresse, d'où des bons résultats en moyenne ; mais à cause du peu d'utilisateurs disponibles en tout, parfois il n'y en a pas qui ressemble vraiment, auquel cas on a quelques grosses erreurs, ce qui explique que cet algorithme ne soit pas aussi bon quand on considère une norme 2. Au contraire, ItemCosSim s'intéresse à de plus nombreux vecteurs (liés aux objets) de plus petite dimension. Le grand nombre entraîne une constance : on va toujours avoir plusieurs objets qui ressemblent à celui qui nous intéresse, et en les moyennant on trouve systématiquement quelque chose de pas trop loin de la réalité, ce qui est bien pour la norme 2. En revanche on est un peu "noyé" par la masse des vecteurs disponibles (les vecteurs plus distants ont un petit coefficient, mais il existe néaanmoins) et on ne peut pas, comme UserCosSim, recopier à peu près exactement un vecteur qui nous ressemble beaucoup ; on n'est donc jamais vraiment très précis, ce qui n'est pas efficace pour une norme 1.
 		
 		
 		
