@@ -97,14 +97,19 @@
 \maketitle
 \section*{Introduction}
 
-Définition : collaborative filtering
+Un algorithme de \emph{collaborative filtering} a pour but de se baser sur le comportement passé des utilisateurs pour proposer des recommandations pertinentes. On va ici se placer dans le cadre d'une matrice de ratings donnés par des utilisateurs à des objets, éventuellement incomplète voire parcimonieuse. Étant donné un sous-ensemble des ratings, le but est d'estimer les autres.
 
-Position du problème : 
-Attentes vis-à-vis des algorithmes (précision/temps de réponse/ajout rapide d'un rating/cold start...)
+On a plusieurs attentes vis-à-vis d'un tel algorithme :
+\begin{itemize}
+	\item{Requêtes rapides : un utilisateur doit pouvoir obtenir rapidement une recommandation (typiquement, l'objet à qui on estime qu'il attribuera le meilleur score).}
+	\item{Ajout d'un nouvel utilisateur : on aimerait pouvoir ajouter raisonnablement vite un nouvel utilisateur à la base de données, en mettant à jour à la volée l'estimation des ratings des autres utilisateurs.}
+	\item{Démarrage à froid : on aimerait qu'un utilisateur ayant donné peu de ratings puisse recevoir des recommendations pertinentes.}
+	\item{Précision : on cherche à obtenir les recommandations les plus pertinentes possibles.}
+\end{itemize}
 
-Efficacité peut varier selon la forme du jeu de données (sparsity...)
+On peut s'attendre à ce que l'efficacité d'un algorithme varie selon les caractéristiques du jeu de données (forme de la matrice, caractère parcimonieux ou non...)
 
-Objectif : Implémenter (en Matlab) et comparer différents algorithmes en terme de précision et de temps d'exécution sur différents jeux de données, mettre en relief les compromis à faire.
+Dans la suite, nous allons comparer nos implémentations de différents algorithmes de collaborative filtering en terme de précision (au sens de l'erreur MSE) et de temps de calcul (pour fournir une estimation complète des ratings à partir d'une matrice à trous).
 
 \section{Position du problème}
 
