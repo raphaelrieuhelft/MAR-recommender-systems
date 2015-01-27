@@ -201,6 +201,8 @@ Dans la suite, nous allons comparer nos implémentations de différents algorith
 	\subsubsection{Le jeu de données Jester}
 		Jeu de données mis à disposition par Ken Goldberg (Berkeley). Il s'agit de ratings d'une centaine de blagues par de nombreux utilisateurs (plus de $50 000$). Huit blagues ont été notées par tous les utilisateurs : on s'en sert comme gauge test pour implémenter Eigentaste. Les coefficients varient continûment de $-10$ à $10$ : on les ramène à $[0,1]$ par une transformation affine pour mieux comparer avec la matrice du DM.
 		
+		La densité $d$ de la matrice est d'environ $0.24$. Pour $p<d$, on conserve une proportion $p/d$ des coefficients aléatoirement : on obtient à nouveau une matrice de densité $p$ pour pouvoir comparer avec le jeu de données précédent.
+		
 		Comme le rang de la matrice cible est inconnu (elle n'est pas pleine) les algorithmes à base de SVD donnent d'assez mauvais résultats (en ne tronquant pas du tout la décomposition en valeurs singulières).
 		
 		Contrairement à la matrice du DM, les objets notés par les utilisateurs ne sont pas choisis au hasard : il s'agit de recommandations qu'on leur a faites après qu'ils ont noté le gauge set, ils ont donc plutôt tendance à noter des objets qu'ils apprécient.
@@ -208,7 +210,7 @@ Dans la suite, nous allons comparer nos implémentations de différents algorith
 		Par ailleurs, la forme de la matrice est inversée par rapport à celle du DM : il y a beaucoup d'utilisateurs et très peu d'objets.
 		
 		Pour avoir des temps de calcul et des utilisations mémoire raisonnables sur nos machines personnelles, nous nous sommes restreints aux $5000$ premiers utilisateurs.
-		
+	
 	\subsection{Mesures d'erreur}
 	
 		\begin{figure}[ht!]
@@ -221,6 +223,19 @@ Dans la suite, nous allons comparer nos implémentations de différents algorith
 		Les algorithmes simples "BiasFromMean" et "UnbiasedWitness" obtient d'excellents résultats ! Les variantes de Slope One obtiennent aussi des résultats très comparables à l'algorithme UnbiasedSVD plus complexe à mettre en œuvre.
 		
 		On observe que sur la matrice du DM, il est préférable de considérer la similarité par utilisateur, alors que pour le jeu de données Jester, il vaut mieux utiliser la similarité par objet : c'est très probablement lié au fait que dans le jeu de données Jester, il y a beaucoup plus d'utilisateurs que d'objets alors que c'est l'inverse dans la matrice du DM.
+		
+	\subsection{Choix des paramètres pour Eigentaste}
+	
+		L'algorithme de clustering utilisé dans le calcul de Eigentaste prend un paramètre qu'il faut optimiser pour augmenter la précision : le nombre maximal de clusters. On observe que le nombre optimal de clusters varie fortement avec $p$ : pour $p=0.2$, il faut en prendre environ $600$ (pour classifier $5000$ utilisateurs), alors que pour $p=0.1$, il est préférable de n'en prendre qu'une vingtaine (voir Figure \ref{clusterfig}). Ceci est probablement lié à un phénomène de surapprentissage : quand $p$ est petit, on n'a pas assez d'informations pour justifier de séparer certains utilisateurs.
+		
+		\begin{figure}[ht!]
+			\centering
+			\includegraphics[height=120mm]{optimalMaxClust01_cropped.pdf}
+			\includegraphics[height=120mm]{optimalMaxClust02_cropped.pdf}
+			\caption{Erreur MSE en fonction du nombre maximal de clusters pour $p=0.2$ et $p=0.1$}
+			\label{clusterfig}
+		\end{figure}
+		
 	\subsection{Temps d'exécution}
 	
 		\begin{figure}[ht!]
