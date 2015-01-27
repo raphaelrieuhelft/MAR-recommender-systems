@@ -116,7 +116,7 @@ Dans la suite, nous allons comparer nos implémentations de différents algorith
 
 \section*{Notations}
 
-$n$ utilisateurs, $p$ objets.
+$n$ utilisateurs, $m$ objets.
 
 $r_{i,j}$ : note donnée par l'utilisateur $i$ à l'objet $j$.
 
@@ -141,20 +141,38 @@ $S^{j,k}$ : ensemble des utilisateurs qui ont noté à la fois $j$ et $k$.
 				\item{"Witness" : Estimer tous les ratings inconnus par la moyenne de tous les ratings exprimés}
 				\item{"PerUserAverage" : Estimer tous les ratings inconnus pour un utilisateur $i$ donné par la moyenne $\overline u_i$ des ratings connus qu'il a attribués}
 				\item{"BiasFromMean" : Tenir compte en plus de l'écart entre les notes attribuées à l'objet et les moyennes des utilisateurs qui l'ont noté : 
-				$\tilde r_{i,j}=\overline u_i + \frac{1}{\card S^j} \sum\limits_{i'\in S^j} (r_{i,j} - \overline u_{i'})$.
+				$$\tilde r_{i,j}=\overline u_i + \frac{1}{\card S^j} \sum\limits_{i'\in S^j} (r_{i,j} - \overline u_{i'})$$.}
 				\item{"UnbiasedWitness" : Retirer les biais (cf. \ref{simCos}), estimer tous les ratings inconnus par $0$, remettre les biais}
 			\end{itemize}
 	
 	\subsection{Algorithmes Slope One}
-		Prédicteur affine, en imposant une pente de 1. Pour tout couple d'objet, on définit une déviation de l'un par rapport à l'autre, un peu comme la mesure de similarité cosinus, mais en beaucoup plus simple (linéaire). La prédiction de la note attribuée à un objet s'obtient alors en ajoutant la moyenne de l'utilisateur et la moyenne des déviations de l'objet aux autres objets notés par l'utilisateur. D'où un prédicteur de forme $f(x)=x+b$.
+		Prédicteur affine, en imposant une pente de 1. Pour tout couple d'objet, on définit une déviation de l'un par rapport à l'autre, un peu comme la mesure de similarité cosinus, mais en beaucoup plus simple :
+		$$dev_{j,k} = \sum\limits_{i\in S^{j,k}}
+		\frac{r_{i,j}-r_{i,k}}{\card S^{j,k}}$$
+		
+		 $\tilde r_{i,j}$ s'obtient alors comme la moyenne de prédictions $dev_{j,k}+r_{i,k}$ associées aux objets $k\neq j$ qui sont pertinents, i.e. qui ont été notés par $i$ et tels qu'au moins un utilisateur a noté à la fois $j$ et $k$. En notant $R_{i,j}$ cet ensemble, on peut développer en
+		 $$\tilde r_{i,j} = \overline u_i + \frac{1}{\card R_{i,j}} \sum\limits_{k\in R_{i,j}} dev_{j,k}$$
+		 
+		 D'où le qualificatif affine : le prédicteur a une forme $f(x)=x+b$.
 	
+		\
 		
+		Les calculs sont simples. De plus, on peut calculer une fois pour toutes les déviations et les garder en mémoire : ainsi traiter une requête, i.e. calculer $\tilde r_{i,j}$ pour un seul $i$ et un seul $j$ donnés en connaissant la matrice $dev$, est très rapide.  Ces déviations peuvent même être mises à jour sans tout recalculer quand on ajoute un rating.
 		
-		Calculs simples. Possibilité de garder les déviations en mémoire : traitement d'une requête très rapide. De plus, ces déviations peuvent même être mises à jour sans tout recalculer quand on ajoute un rating.
+		Enfin, on verra que ce n'est pas vraiment moins précis que d'autres algorithmes plus sophistiqués.
 		
-		\`A quel point est-ce moins précis que d'autres algos plus sophistiqués ?
+		\
 		
-		Variante : donner plus de poids aux déviations des paires d'objets qui ont été notés tous deux à la fois par un grand nombre d'utilisateurs, car elles sont plus fiables.
+		Variantes : 
+		\begin{itemize}
+		\item 
+		Weighted Slope One : donner plus de poids aux déviations des paires d'objets qui ont été notés tous deux à la fois par un grand nombre d'utilisateurs, car elles sont plus fiables. Pour cela on pondère la moyenne des $dev_{j,k}+r_{i,k}$ par le cardinal de $S^{j,k}$.
+		
+		\item
+		Bi-Polar Slope One : l'estimation des notes de l'utilisateur $i$ ne dépendent dans les algos ci-dessus que de l'ensemble des objets notés par $i$, pas des notes qu'il a attribuées... On ne sait pas tenir compte de ces notes dans le détail en gardant les avantages de Slope One, mais on peut adapter l'algorithme pour que les estimations pour $i$ dépendent de la façon dont les objets qu'il a notés se partitionnent en ceux qu'il a aimés (note supérieure à sa moyenne $\overline u_i$) et ceux qu'il n'a pas aimés.
+		\end{itemize}
+		
+		\
 		
 		Algorithmes tirés de \cite{Lemire2007}.
 	\subsection{Algorithmes par similarité cosinus}
