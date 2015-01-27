@@ -257,12 +257,12 @@ $S^{j,k}$ : ensemble des utilisateurs qui ont noté à la fois $j$ et $k$.
 			\includegraphics[width=0.9\linewidth]{resultatsRapport_cropped.pdf}
 			\caption{Erreur MSE pour certaines valeurs de $p$}
 		\end{figure}
-		Sur la matrice du DM, on obtient ce tableau d'erreurs MSE pour différentes valeurs de p :
+		Sur la matrice du DM, on obtient ce tableau d'erreurs MSE pour différentes valeurs de $p$ :
 		
 		
 		Les algorithmes simples "BiasFromMean" et "UnbiasedWitness" obtient d'excellents résultats ! Les variantes de Slope One obtiennent aussi des résultats très comparables à l'algorithme UnbiasedSVD plus complexe à mettre en œuvre.
 		
-		On observe que sur la matrice du DM, il est préférable de considérer la similarité par utilisateur, alors que pour le jeu de données Jester, il vaut mieux utiliser la similarité par objet : c'est très probablement lié au fait que dans le jeu de données Jester, il y a beaucoup plus d'utilisateurs que d'objets alors que c'est l'inverse dans la matrice du DM.
+		ItemCosSim est plus performant que UserCosSim sur les deux jeux de données, mais la différence est bien plus marquée sur le jeu de données Jester : c'est sans doute lié à la forme particulière de la matrice (il y a très peu d'objets par rapport au nombre d'utilisateurs).
 		
 		\begin{figure}[ht!]
 			\centering
@@ -270,7 +270,9 @@ $S^{j,k}$ : ensemble des utilisateurs qui ont noté à la fois $j$ et $k$.
 			\caption{Erreur MAE sur la matrice du DM}
 		\end{figure}
 		
-		Nous avons aussi évalué l'erreur MAE (Mean Absolute Error) sur la matrice du DM. Il s'agit d'un protocole différent : il consiste à estimer successivement un seul rating à partir de tous les autres, et à prendre la moyenne de l'erreur absolue commise.
+		Nous avons aussi évalué l'erreur MAE (Mean Absolute Error) sur la matrice du DM. Il s'agit d'un protocole différent : il consiste à estimer successivement un seul rating à partir de tous les autres, et à prendre la moyenne de l'erreur absolue commise. Comme il s'agit d'une norme 1 plutôt que d'une norme 2, de grosses erreurs ponctuelles nuisent moins à la précision, tandis que de petites erreurs consistentes nuisent plus.
+		
+		Ainsi, les algorithmes performants au sens des erreurs MSE et MAE diffèrent sensiblement : les algorithmes témoins comme UnbiasedWitness et BiasFromMean sont cette fois nettement moins performants que les variantes de SVD et SlopeOne. Enfin, UserCosSim semble être le meilleur algorithme pour MAE, très nettement devant ItemCosSim alors que c'était l'inverse pour MSE. 
 		
 		
 		
@@ -281,8 +283,8 @@ $S^{j,k}$ : ensemble des utilisateurs qui ont noté à la fois $j$ et $k$.
 		
 		\begin{figure}[ht]
 			\centering
-			\includegraphics[height=120mm]{optimalMaxClust01_cropped.pdf}
-			\includegraphics[height=120mm]{optimalMaxClust02_cropped.pdf}
+			\includegraphics[height=110mm]{optimalMaxClust01_cropped.pdf}
+			\includegraphics[height=110mm]{optimalMaxClust02_cropped.pdf}
 			\caption{Erreur MSE en fonction du nombre maximal de clusters pour $p=0.2$ et $p=0.1$}
 			\label{clusterfig}
 		\end{figure}
@@ -291,7 +293,7 @@ $S^{j,k}$ : ensemble des utilisateurs qui ont noté à la fois $j$ et $k$.
 	
 		\begin{figure}[ht!]
 			\centering
-			\includegraphics{times.jpg}
+			\includegraphics[width=0.9\linewidth]{times.jpg}
 			\caption{Profiling fourni par Matlab}
 		\end{figure}
 		
