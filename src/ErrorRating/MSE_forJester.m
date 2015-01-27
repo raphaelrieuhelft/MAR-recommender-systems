@@ -1,4 +1,4 @@
-function [ errExp ] = MSE_forJester( Mhelp,M, proba, iter, algHandle,r )
+function [ errExp ] = MSE_forJester( Mhelp,M, proba, iter, algHandle,info )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
@@ -13,7 +13,7 @@ proba1=proba/density;
 errSum=0;
 for i=1:iter
     X=[Mhelp, randObserve(M,proba1)];
-    Mh=algHandle(X,proba,r);
+    Mh=algHandle(X,proba,info);
     diff=M-Mh(:,g+1:end);
     diff2 = diff.^2;
     err = sum(nansum(diff2));

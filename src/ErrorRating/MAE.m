@@ -1,6 +1,8 @@
-function [ err ] = MAE( data, algo )
+function [ err ] = MAE( data, d, algo )
 %UNTITLED3 Summary of this function goes here
 %   Detailed explanation goes here
+
+data = randObserve(data,d);
 
 [r,c] = find(~isnan(data));
 cardSu = sum(~isnan(data), 2);

@@ -1,9 +1,8 @@
-function [ Mh ] = eigentaste( R, p, r )
+function [ Mh ] = eigentaste( R, p, maxClust )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 
 gaugeIndices = 1:8;
-maxClust = 100;
 
 [n,m]=size(R);
 k=numel(gaugeIndices);

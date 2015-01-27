@@ -69,15 +69,34 @@ names(2:nalgos+1) = algos(:,1);
         results(2:nalgos+1) = num2cell(v);
     end
 
-results = [names ...
-    MSEsBonus(.05) MSEsJester(.05) ...
-    MSEsBonus(.2) MSEsJester(.2) ...
-    MSEsBonus(.5)
-    ]
+    function results = MAEs(d)
+        results = cell(nalgos+1,1);
+        results(1) = {strcat('MAE, d=',num2str(d))};
+        v = cellfun(@(algo) MAE(M,d,algo,default_rank),...
+            algos(:,2));
+        results(2:nalgos+1) = num2cell(v);
+    end
+% results = [names ...
+%     MSEsBonus(.05) MSEsJester(.05) ...
+%     MSEsBonus(.2) MSEsJester(.2) ...
+%     MSEsBonus(.5)
+%     ]
 
 
-res = { 'Eigentaste', 'Jester, p=0.2', ...
-    MSE_forJester(Jh,J,.2,iter,@eigentaste,0) }
+%%%%%%%%%
+
+%%% eigentaste
+
+%%% courbes permettant de déterminer maxClust optimal pour p=.2 et p=.1
+% maxClust = 50:50:1000;
+% errs = arrayfun(@(m) MSE_forJester(Jh,J,.2,iter,@eigentaste,m),maxClust);
+% plot(maxClust,errs);
+% maxClust = 5:5:100;
+% errs = arrayfun(@(m) MSE_forJester(Jh,J,.1,iter,@eigentaste,m),maxClust);
+% plot(maxClust,errs);
+
+%res = { 'Eigentaste', 'Jester, p=0.2', ...
+%    MSE_forJester(Jh,J,.2,iter,@eigentaste,0) }
 
 
 % results = cell(nalgos+1,nprobas+1);
@@ -92,18 +111,7 @@ res = { 'Eigentaste', 'Jester, p=0.2', ...
 % results
 
 
-% doMAE = logical(cell2mat(algos(:,3)));
-% doMAEalgos = algos(:,2);
-% doMAEalgos = doMAEalgos(doMAE);
-% M1 = randObserve(M,0.01);
-% MAEs_vect = cellfun(@(algo) MAE(M1,algo), doMAEalgos);
-% %MAEs_vect = ones(numel(notSVDalgos),1);
-% MAEs_cell = num2cell(MAEs_vect);
-% MAEs = cell(nalgos,1);
-% %MAEs(1) = {'MAE'};
-% MAEs(doMAE) = MAEs_cell;
-% 
-% results = [results, [{'MAE'};MAEs]]
+
 
 
 % MSEs = cellfun(@(algo) MSE(M,p,iter,algo), algos(:,2));
@@ -119,9 +127,7 @@ res = { 'Eigentaste', 'Jester, p=0.2', ...
 % % t1(notSVD) = MAEs;
 % % MAEs = t1;
 % 
-% results = [algos(:,1), MSEs, 
-%     %MAEs
-%     ]
+
 
 
 end
