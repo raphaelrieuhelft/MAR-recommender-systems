@@ -104,31 +104,65 @@
 		\end{itemize}
 	\end{frame}
 	\begin{frame}
+		\frametitle{Algorithmes témoins}
 		
+		\begin{itemize}
+			\item Witness
+			\item UnbiasedWitness
+			\item PerUserAverage
+			\item BiasFromMean
+		\end{itemize}
 	\end{frame}
 	\begin{frame}
-		
+		\frametitle{Slope One}	
 	\end{frame}
 	\begin{frame}
-		
+		\frametitle{SVD}
+		Variations sur la question bonus du DM2
+		\begin{itemize}
+			\item ShiftSVD
+			\item UnbiasedSVD	
+		\end{itemize}
 	\end{frame}
 	\begin{frame}
+		\frametitle{Similarité cosinus}
 		
+		Algorithmes du cours : gestion des biais puis moyenne pondérée par un score de similarité
+		\begin{itemize}
+			\item UserCosSim
+			\item ItemCosSim
+		\end{itemize} 
 	\end{frame}
-\frame[plain]{
-	\includegraphics[width=\linewidth]{eigentaste_proj_cropped.pdf}
+	\begin{frame}
+		\frametitle{Analyse en composantes principales : Eigentaste}
+		
+		\begin{itemize}
+			\item Nécessite un petit ensemble d'objets notés par tout le monde
+			\item Projection des utilisateurs sur un sous-espace bien choisi
+			\item Clustering, puis méthode des histogrammes
+		\end{itemize}
+	\end{frame}
+	
+	\frame[plain]{
+		\includegraphics[width=\linewidth]{eigentaste_proj_cropped.pdf}
 	}
 	\frame[plain]{
-		\includegraphics[width=\linewidth]{resultatsRapport_cropped.pdf}
-	}
-	\frame[plain]{
-		\includegraphics[width=\linewidth]{MAE_cropped.pdf}
-	}
-	\frame[plain]{
+		\frametitle{Choix du nombre de clusters}
 		\centering
 		\includegraphics[width=0.4\linewidth]{optimalMaxClust01_cropped.pdf}
 		\includegraphics[width=0.4\linewidth]{optimalMaxClust02_cropped.pdf}
 	}
 	
+	\frame[plain]{
+		\includegraphics[width=\linewidth]{resultatsRapport_cropped.pdf}
+		
+		Jeux de données : \begin{itemize}
+			\item Matrice de la question bonus du DM
+			\item Jester : ensemble de ratings d'une centaine de blagues par plus de $50000$ utilisateurs, avec un sous-ensemble noté par tout le monde
+		\end{itemize}
+	}
+	\frame[plain]{
+		\includegraphics[width=\linewidth]{MAE_cropped.pdf}
+	}
 \end{document}
 
