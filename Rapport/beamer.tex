@@ -160,8 +160,8 @@
 		\end{itemize}
 	\end{frame}
 	
-	\frame[plain]{
-		\includegraphics[width=\linewidth]{eigentaste_proj_cropped.pdf}
+	\frame[plain]{\frametitle{Projection des vecteurs des utilisateurs sur un plan}
+		\includegraphics[width=.9\linewidth]{eigentaste_proj_cropped.pdf}
 	}
 	\frame[plain]{
 		\frametitle{Choix du nombre de clusters}
@@ -170,7 +170,7 @@
 		\includegraphics[width=0.4\linewidth]{optimalMaxClust02_cropped.pdf}
 	}
 	
-	\frame[plain]{
+	\frame[plain]{\frametitle{Erreur MSE (norme 2)}
 		\includegraphics[width=\linewidth]{resultatsRapport_cropped.pdf}
 		
 		Jeux de données : \begin{itemize}
@@ -178,7 +178,7 @@
 			\item Jester : ensemble de ratings d'une centaine de blagues par plus de $50000$ utilisateurs, avec un sous-ensemble noté par tout le monde
 		\end{itemize}
 	}
-	\frame[plain]{
+	\frame[plain]{\frametitle{Erreur MAE (un rating masqué à la fois, norme 1)}
 		\includegraphics[width=\linewidth]{MAE_cropped.pdf}
 	}
 	\frame[plain]{
@@ -187,6 +187,24 @@
 			\item Selon le jeu de données et l'objectif (norme d'erreur), le choix de l'algorithme est très variable
 			\item Compromis à faire entre précision, temps de calcul, mémoire, vitesse des requêtes et des mises à jour
 		\end{itemize}
+		
+		\vspace{3em}
+		
+		\textbf{Références}
+		
+		\vspace{.5em}
+		
+		K. Goldberg, T. Roeder, D. Gupta, C. Perkins :
+		
+		\quad 
+		Eigentaste : A constant time collaborative fitering algorithm
+			
+		\vspace{.5em}
+			
+		D. Lemire, A. Maclachlan :
+			
+		\quad
+		Slope One Predictors for Online Rating-Based Collaborative Filtering
 		}
 \end{document}
 
